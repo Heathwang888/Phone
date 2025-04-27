@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>手機對保資料填表</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <h1>手機對保資料填寫</h1>
+  <form id="dataForm">
+    客戶姓名：<input type="text" id="name"><br><br>
+    身分證字號：<input type="text" id="id"><br><br>
+    地址：<input type="text" id="address"><br><br>
+    IMEI碼：<input type="text" id="imei"><br><br>
+    金額（交易總價）：<input type="number" id="price"><br><br>
+    每日租金：<input type="number" id="rent"><br><br>
+    行庫分行：<input type="text" id="bank"><br><br>
+    戶名：<input type="text" id="accountName"><br><br>
+    帳號：<input type="text" id="accountNumber"><br><br>
+
+    手機型號：
+    <select id="model">
+      <option>iPhone 12</option>
+      <option>iPhone 12 mini</option>
+      <option>iPhone 12 Pro</option>
+      <option>iPhone 12 Pro Max</option>
+      <option>iPhone 13</option>
+      <option>iPhone 13 mini</option>
+      <option>iPhone 13 Pro</option>
+      <option>iPhone 13 Pro Max</option>
+      <option>iPhone 14</option>
+      <option>iPhone 14 Plus</option>
+      <option>iPhone 14 Pro</option>
+      <option>iPhone 14 Pro Max</option>
+      <option>iPhone 15</option>
+      <option>iPhone 15 Plus</option>
+      <option>iPhone 15 Pro</option>
+      <option>iPhone 15 Pro Max</option>
+      <option>iPhone 16</option>
+      <option>iPhone 16 Plus</option>
+      <option>iPhone 16 Pro</option>
+      <option>iPhone 16 Pro Max</option>
+      <option>iPhone 16E</option>
+    </select><br><br>
+
+    容量：
+    <select id="capacity">
+      <option>128G</option>
+      <option>256G</option>
+      <option>512G</option>
+      <option>1TB</option>
+    </select><br><br>
+
+    <button type="button" onclick="generatePDF()">產生PDF合約</button>
+  </form>
+
+<script>
+  function toTaiwanDate(date) {
+    const year = date.getFullYear() - 1911;
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `民國${year}年${month.toString().padStart(2, '0')}月${day.toString().padStart(2, '0')}日`;
+  }
+
+  async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const name = document.getElementById('name').value;
+    const id = document.getElementById('id').value;
+    const address = document.getElementById('address').value;
+    const imei = document.getElementById('imei').value;
+    const price = document.getElementById('price').value;
+    const rent = document.getElementById('rent').value;
+    const bank = document.getElementById('bank').value;
+    const accountName = document.getElementById('accountName').value;
+    const accountNumber = document.getElementById('accountNumber').value;
+    const model = document.getElementById('model').value;
+    const capacity = document.getElementById('capacity').value;
+
+    const today = new Date();
+    const endDate = new Date();
+    endDate.setDate(today.getDate() + 7);
+
+    const todayStr = toTaiwanDate(today);
+    const endStr = toTaiwanDate(endDate);
+
+    // 第一頁 合約（簡化版範例）
+    doc.text("中古手機買賣契約", 10, 20);
+    doc.text(`出賣人：${name}`, 10, 30);
+    doc.text(`身分證字號：${id}`, 10, 40);
+    doc.text(`地址：${address}`, 10, 50);
+    doc.text(`手機廠牌：APPLE`, 10, 60);
+    doc.text(`手機型號：${model} ${capacity}`, 10, 70);
+    doc.text(`IMEI碼：${imei}`, 10, 80);
+    doc.text(`交易總價：${price}元`, 10, 90);
+    doc.text(`帳戶資訊：${bank} ${accountName} ${accountNumber}`, 10, 100);
+    doc.text(`簽署日：${todayStr}`, 10, 110);
+
+    doc.addPage();
+
+    // 第二頁 租賃契約書
+    doc.text("手機租賃契約書", 10, 20);
+    doc.text(`承租人：${name}`, 10, 30);
+    doc.text(`設備：APPLE ${model} ${capacity}`, 10, 40);
+    doc.text(`IMEI碼：${imei}`, 10, 50);
+    doc.text(`總價值：${price}元`, 10, 60);
+    doc.text(`租賃期間：${todayStr} 至 ${endStr}`, 10, 70);
+    doc.text(`每日租金：${rent}元`, 10, 80);
+    doc.text(`承租人地址：${address}`, 10, 90);
+    doc.text(`承租人身分證字號：${id}`, 10, 100);
+
+    doc.addPage();
+
+    // 第三頁 切結書
+    doc.text("切結書", 10, 20);
+    doc.text(`立書人：${name}`, 10, 30);
+    doc.text(`身分證字號：${id}`, 10, 40);
+    doc.text(`立書日期：${todayStr}`, 10, 50);
+
+    doc.save(`${name}-手機對保合約.pdf`);
+  }
+</script>
+
+</body>
+</html>
