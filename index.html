@@ -259,19 +259,28 @@ async function generateContract() {
   document.getElementById('swearDate').innerText = toTaiwanDate(today);
 
   // PDF生成
+  async function generateContract() {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF('p', 'mm', 'a4');
   const pages = document.querySelectorAll('.contract-page');
+
   for (let i = 0; i < pages.length; i++) {
-    const canvas = await html2canvas(pages[i]);
-    const imgData = canvas.toDataURL('image/jpeg');
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    if (i > 0) pdf.addPage();
-    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+    try {
+      const canvas = await html2canvas(pages[i], { scale: 2 });
+      const imgData = canvas.toDataURL('image/jpeg', 1.0); // 明確指定jpeg格式
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      if (i > 0) pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+    } catch (error) {
+      console.error("生成PDF失敗：", error);
+      alert("發生錯誤，無法產生PDF，請確認畫面內容正確後重試！");
+      return;
+    }
   }
+
+  const name = document.getElementById('name').value || '合約';
   pdf.save(`${name}-手機對保合約.pdf`);
 }
-</script>
-
-</body>
-</html>
