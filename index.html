@@ -307,7 +307,11 @@
     async function downloadPDF() {
       const jsPDF = window.jspdf.jsPDF;
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const pages = [document.getElementById('contractPage1'), document.getElementById('contractPage2'), document.getElementById('contractPage3')];
+      const pages = [
+  document.getElementById('contractPage1'),
+  document.getElementById('contractPage2'),
+  document.getElementById('contractPage3')
+];
       
       for (let i = 0; i < pages.length; i++) {
         // 確保圖片已載入
