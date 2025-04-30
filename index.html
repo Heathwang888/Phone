@@ -86,22 +86,26 @@
     }
 
     /* 隱藏預覽頁面 */
-    .page-container {
-      display: none;
-    }
+    /* 修改這部分 */
+.page-container {
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+  margin-bottom: 40px;
+}
 
-    .page {
-      position: relative;
-      width: 1448px;
-      height: 2048px;
-      background-size: cover;
-      background-position: center;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-      border: 1px solid #aaa;
-      margin: 40px auto;
-      background-repeat: no-repeat;
-    }
+.page {
+  position: relative;
+  width: 1448px;
+  height: 2048px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  border: 1px solid #aaa;
+  margin: 40px auto;
+  background-repeat: no-repeat;
+}
 
     .field {
       position: absolute;
