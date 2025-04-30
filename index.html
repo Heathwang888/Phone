@@ -3,24 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <title>手機對保合約 - 正式版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts for Noto Sans TC -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    body { font-family: 'Noto Sans TC', sans-serif; padding: 20px; }
-    .form-group { margin-bottom: 10px; }
-    .page { position: relative; width: 794px; height: 1123px; background-size: cover; margin: 30px auto; }
-    .text-field { position: absolute; font-size: 14px; font-weight: bold; color: #000; white-space: nowrap; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+      margin: 0;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+      background: #fff;
+      padding: 20px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+    input, select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+    button {
+      width: 48%;
+      padding: 10px;
+      margin: 5px 1%;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background: #1976d2;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+    }
+    .pages-container {
+      overflow-x: auto;
+      display: flex;
+      gap: 20px;
+      padding-bottom: 20px;
+    }
+    .page {
+      position: relative;
+      width: 794px;
+      height: 1123px;
+      background-size: cover;
+      background-position: center;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      border-radius: 10px;
+      flex-shrink: 0;
+      background-color: #fff;
+    }
+    .text-field {
+      position: absolute;
+      font-size: 16px;
+      font-weight: bold;
+      color: #000;
+      white-space: nowrap;
+      pointer-events: none;
+      /* 防止被選取 */
+      user-select: none;
+    }
+    /* 響應式設計 */
+    @media (max-width: 900px) {
+      .page {
+        width: 350px;
+        height: 495px;
+        font-size: 12px;
+      }
+      .text-field {
+        font-size: 10px;
+      }
+    }
+    @media (max-width: 500px) {
+      .page {
+        width: 250px;
+        height: 353px;
+      }
+      .text-field {
+        font-size: 8px;
+      }
+      form {
+        padding: 10px 5px;
+      }
+    }
   </style>
 </head>
 <body>
 
 <h2>手機對保資料填寫</h2>
-<form id="dataForm">
-  <div class="form-group"><label>姓名：<input id="name"></label></div>
-  <div class="form-group"><label>身分證字號：<input id="id"></label></div>
-  <div class="form-group"><label>地址：<input id="address"></label></div>
+<form id="dataForm" autocomplete="off">
+  <div class="form-group"><label>姓名<input id="name" autocomplete="off"></label></div>
+  <div class="form-group"><label>身分證字號<input id="id" autocomplete="off"></label></div>
+  <div class="form-group"><label>地址<input id="address" autocomplete="off"></label></div>
   <div class="form-group">
-    <label>手機型號：</label>
+    <label>手機型號</label>
     <select id="model">
       <option value="">請選擇型號</option>
       <option>iPhone 12</option>
@@ -39,15 +141,10 @@
       <option>iPhone 15 Plus</option>
       <option>iPhone 15 Pro</option>
       <option>iPhone 15 Pro Max</option>
-      <option>iPhone 16 </option>
-      <option>iPhone 16 e</option>
-      <option>iPhone 16 Plus</option>
-      <option>iPhone 16 Pro</option>
-      <option>iPhone 16 Pro Max</option>
     </select>
   </div>
   <div class="form-group">
-    <label>容量：</label>
+    <label>容量</label>
     <select id="capacity">
       <option value="">請選擇容量</option>
       <option>128G</option>
@@ -56,46 +153,50 @@
       <option>1TB</option>
     </select>
   </div>
-  <div class="form-group"><label>IMEI碼：<input id="imei"></label></div>
-  <div class="form-group"><label>總價（元）：<input id="price"></label></div>
-  <div class="form-group"><label>每日租金（元）：<input id="rent"></label></div>
-  <div class="form-group"><label>銀行分行：<input id="bank"></label></div>
-  <div class="form-group"><label>戶名：<input id="accountName"></label></div>
-  <div class="form-group"><label>帳號：<input id="account"></label></div>
-  <button type="button" onclick="fillData()">套入合約資料</button>
-  <button type="button" onclick="downloadPDF()">下載 PDF 合約</button>
+  <div class="form-group"><label>IMEI碼<input id="imei" autocomplete="off"></label></div>
+  <div class="form-group"><label>總價（元）<input id="price" autocomplete="off"></label></div>
+  <div class="form-group"><label>每日租金（元）<input id="rent" autocomplete="off"></label></div>
+  <div class="form-group"><label>銀行分行<input id="bank" autocomplete="off"></label></div>
+  <div class="form-group"><label>戶名<input id="accountName" autocomplete="off"></label></div>
+  <div class="form-group"><label>帳號<input id="account" autocomplete="off"></label></div>
+  <div class="button-group">
+    <button type="button" onclick="fillData()">套入合約資料</button>
+    <button type="button" onclick="downloadPDF()">下載 PDF 合約</button>
+  </div>
 </form>
 
-<!-- 三頁合約背景圖，請替換下方 URL 為你自己的空白圖檔路徑 -->
-<div class="page" style="background-image: url('page_1.jpg');">
-  <div class="text-field" id="name1" style="top:115px; left:140px;"></div>
-  <div class="text-field" id="id1" style="top:115px; left:375px;"></div>
-  <div class="text-field" id="address1" style="top:140px; left:140px;"></div>
-  <div class="text-field" id="model1" style="top:220px; left:215px;"></div>
-  <div class="text-field" id="capacity1" style="top:220px; left:470px;"></div>
-  <div class="text-field" id="imei1" style="top:245px; left:160px;"></div>
-  <div class="text-field" id="price1" style="top:320px; left:180px;"></div>
-  <div class="text-field" id="bank1" style="top:350px; left:140px;"></div>
-  <div class="text-field" id="account1" style="top:370px; left:140px;"></div>
-  <div class="text-field" id="accountName1" style="top:370px; left:420px;"></div>
-  <div class="text-field" id="date1" style="top:760px; left:460px;"></div>
-</div>
-<div class="page" style="background-image: url('page_2.jpg');">
-  <div class="text-field" id="name2" style="top:135px; left:140px;"></div>
-  <div class="text-field" id="id2" style="top:135px; left:375px;"></div>
-  <div class="text-field" id="address2" style="top:160px; left:140px;"></div>
-  <div class="text-field" id="model2" style="top:230px; left:230px;"></div>
-  <div class="text-field" id="capacity2" style="top:230px; left:470px;"></div>
-  <div class="text-field" id="imei2" style="top:260px; left:160px;"></div>
-  <div class="text-field" id="price2" style="top:290px; left:180px;"></div>
-  <div class="text-field" id="rent2" style="top:320px; left:180px;"></div>
-  <div class="text-field" id="date2" style="top:630px; left:440px;"></div>
-</div>
-<div class="page" style="background-image: url('page_3.jpg');">
-  <div class="text-field" id="name3" style="top:210px; left:140px;"></div>
-  <div class="text-field" id="id3" style="top:210px; left:360px;"></div>
-  <div class="text-field" id="address3" style="top:210px; left:540px;"></div>
-  <div class="text-field" id="date3" style="top:580px; left:460px;"></div>
+<div class="pages-container">
+  <!-- 三頁合約背景圖，請將 images/page_1.jpg, images/page_2.jpg, images/page_3.jpg 放在 images 資料夾 -->
+  <div class="page" style="background-image: url('images/page_1.jpg');">
+    <div class="text-field" id="name1" style="top:115px; left:140px;"></div>
+    <div class="text-field" id="id1" style="top:115px; left:375px;"></div>
+    <div class="text-field" id="address1" style="top:140px; left:140px;"></div>
+    <div class="text-field" id="model1" style="top:220px; left:215px;"></div>
+    <div class="text-field" id="capacity1" style="top:220px; left:470px;"></div>
+    <div class="text-field" id="imei1" style="top:245px; left:160px;"></div>
+    <div class="text-field" id="price1" style="top:320px; left:180px;"></div>
+    <div class="text-field" id="bank1" style="top:350px; left:140px;"></div>
+    <div class="text-field" id="account1" style="top:370px; left:140px;"></div>
+    <div class="text-field" id="accountName1" style="top:370px; left:420px;"></div>
+    <div class="text-field" id="date1" style="top:760px; left:460px;"></div>
+  </div>
+  <div class="page" style="background-image: url('images/page_2.jpg');">
+    <div class="text-field" id="name2" style="top:135px; left:140px;"></div>
+    <div class="text-field" id="id2" style="top:135px; left:375px;"></div>
+    <div class="text-field" id="address2" style="top:160px; left:140px;"></div>
+    <div class="text-field" id="model2" style="top:230px; left:230px;"></div>
+    <div class="text-field" id="capacity2" style="top:230px; left:470px;"></div>
+    <div class="text-field" id="imei2" style="top:260px; left:160px;"></div>
+    <div class="text-field" id="price2" style="top:290px; left:180px;"></div>
+    <div class="text-field" id="rent2" style="top:320px; left:180px;"></div>
+    <div class="text-field" id="date2" style="top:630px; left:440px;"></div>
+  </div>
+  <div class="page" style="background-image: url('images/page_3.jpg');">
+    <div class="text-field" id="name3" style="top:210px; left:140px;"></div>
+    <div class="text-field" id="id3" style="top:210px; left:360px;"></div>
+    <div class="text-field" id="address3" style="top:210px; left:540px;"></div>
+    <div class="text-field" id="date3" style="top:580px; left:460px;"></div>
+  </div>
 </div>
 
 <script>
@@ -145,11 +246,22 @@ function fillData() {
 }
 
 async function downloadPDF() {
-  const {{ jsPDF }} = window.jspdf;
+  const jsPDF = window.jspdf.jsPDF;
   const pdf = new jsPDF('p', 'mm', 'a4');
   const pages = document.querySelectorAll('.page');
   for (let i = 0; i < pages.length; i++) {
-    const canvas = await html2canvas(pages[i], { scale: 2 });
+    // 確保圖片已載入
+    await new Promise(resolve => {
+      const bg = pages[i].style.backgroundImage;
+      if (!bg) return resolve();
+      const url = bg.slice(5, -2);
+      const img = new window.Image();
+      img.onload = resolve;
+      img.onerror = resolve;
+      img.src = url;
+      if (img.complete) resolve();
+    });
+    const canvas = await html2canvas(pages[i], { scale: 2, useCORS: true });
     const imgData = canvas.toDataURL('image/jpeg', 1.0);
     const imgProps = pdf.getImageProperties(imgData);
     const pdfWidth = pdf.internal.pageSize.getWidth();
