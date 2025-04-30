@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>手機對保合約 - 定位測試</title>
-  <meta name="viewport" content="width=794">
+  <meta name="viewport" content="width=1448">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -68,8 +68,8 @@
     }
     .page {
       position: relative;
-      width: 794px;
-      height: 1123px;
+      width: 1448px;
+      height: 2048px;
       background-size: cover;
       background-position: center;
       border-radius: 10px;
@@ -80,10 +80,10 @@
     }
     .field {
       position: absolute;
-      font-size: 12px;
+      font-size: 20px;
       color: #000;
       font-weight: bold;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       white-space: nowrap;
       pointer-events: none;
       user-select: none;
@@ -168,38 +168,38 @@
   </form>
 
   <div class="page-container">
-     <!-- PAGE 1 -->
+    <!-- PAGE 1 -->
     <div class="page" id="contractPage1" style="background-image: url('images/page1.jpg');">
       <!-- 出賣人 -->
-      <div class="field" id="sellerNameField" style="top:175px; left:183px;"></div>
-      <div class="field" id="sellerIdField" style="top:175px; left:420px;"></div>
-      <div class="field" id="sellerAddressField" style="top:210px; left:183px;"></div>
+      <div class="field" id="sellerNameField" style="top:330px; left:220px;"></div>
+      <div class="field" id="sellerIdField" style="top:330px; left:700px;"></div>
+      <div class="field" id="sellerAddressField" style="top:390px; left:220px;"></div>
       <!-- 標的物 -->
-      <div class="field" id="phoneModelField" style="top:370px; left:290px;"></div>
-      <div class="field" id="imeiField" style="top:370px; left:510px;"></div>
+      <div class="field" id="phoneModelField" style="top:610px; left:500px;"></div>
+      <div class="field" id="imeiField" style="top:610px; left:840px;"></div>
       <!-- 交易總價 -->
-      <div class="field" id="totalPriceField" style="top:503px; left:265px;"></div>
+      <div class="field" id="totalPriceField" style="top:910px; left:220px;"></div>
       <!-- 行庫分行、戶名、帳號 -->
-      <div class="field" id="bankBranchField" style="top:595px; left:215px;"></div>
-      <div class="field" id="accountNameField" style="top:595px; left:400px;"></div>
-      <div class="field" id="accountNumberField" style="top:595px; left:553px;"></div>
+      <div class="field" id="bankBranchField" style="top:990px; left:200px;"></div>
+      <div class="field" id="accountNameField" style="top:990px; left:590px;"></div>
+      <div class="field" id="accountNumberField" style="top:990px; left:960px;"></div>
       <!-- 最下方身分證字號 -->
-      <div class="field" id="signerIdField" style="top:983px; left:210px;"></div>
+      <div class="field" id="signerIdField" style="top:1850px; left:220px;"></div>
       <!-- 年月日 -->
-      <div class="field" id="yearField" style="top:1028px; left:210px;"></div>
-      <div class="field" id="monthField" style="top:1028px; left:400px;"></div>
-      <div class="field" id="dayField" style="top:1028px; left:570px;"></div>
+      <div class="field" id="yearField" style="top:1950px; left:900px;"></div>
+      <div class="field" id="monthField" style="top:1950px; left:1050px;"></div>
+      <div class="field" id="dayField" style="top:1950px; left:1200px;"></div>
     </div>
     <!-- PAGE 2 -->
     <div class="page" id="contractPage2" style="background-image: url('images/page2.jpg');">
       <!-- 立契約書人 -->
-      <div class="field" id="contractorNameField" style="top:107px; left:210px;"></div>
+      <div class="field" id="contractorNameField" style="top:120px; left:600px;"></div>
       <!-- 手機廠牌 -->
       <div class="field" id="brandField" style="top:220px; left:170px;">APPLE</div>
       <!-- 手機型號 -->
-      <div class="field" id="model2Field" style="top:220px; left:297px; letter-spacing:0px;"></div>
+      <div class="field" id="model2Field" style="top:220px; left:320px; letter-spacing:0px;"></div>
       <!-- IMEI -->
-      <div class="field" id="imei2Field" style="top:220px; left:435px; letter-spacing:0px;"></div>
+      <div class="field" id="imei2Field" style="top:220px; left:470px; letter-spacing:0px;"></div>
       <!-- 總價值 -->
       <div class="field" id="price2Field" style="top:220px; left:600px;"></div>
       <!-- 租賃期間 -->
@@ -212,33 +212,39 @@
       <!-- 租金 -->
       <div class="field" id="rent2Field" style="top:340px; left:265px;"></div>
       <!-- 最下方地址、身分證字號 -->
-      <div class="field" id="address2Field" style="top:1000px; left:157px; letter-spacing:0px;"></div>
-      <div class="field" id="id2Field" style="top:977px; left:195px;"></div>
+      <div class="field" id="address2Field" style="top:1900px; left:180px; letter-spacing:0px;"></div>
+      <div class="field" id="id2Field" style="top:1900px; left:600px;"></div>
       <!-- 年月日（簽約日） -->
-      <div class="field" id="year2Field" style="top:1030px; left:210px;"></div>
-      <div class="field" id="month2Field" style="top:1030px; left:400px;"></div>
-      <div class="field" id="day2Field" style="top:1030px; left:570px;"></div>
+      <div class="field" id="year2Field" style="top:2000px; left:900px;"></div>
+      <div class="field" id="month2Field" style="top:2000px; left:1050px;"></div>
+      <div class="field" id="day2Field" style="top:2000px; left:1200px;"></div>
+    </div>
+    <!-- PAGE 3 -->
+    <div class="page" id="contractPage3" style="background-image: url('images/page3.jpg');">
+      <!-- 最下方身分證字號 -->
+      <div class="field" id="signerId3Field" style="top:1850px; left:220px;"></div>
+      <!-- 年月日 -->
+      <div class="field" id="year3Field" style="top:1950px; left:900px;"></div>
+      <div class="field" id="month3Field" style="top:1950px; left:1050px;"></div>
+      <div class="field" id="day3Field" style="top:1950px; left:1200px;"></div>
     </div>
   </div>
-    <script>
+  <script>
     function formatNumber(num) {
       if (!num || isNaN(num)) return num;
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-
     function toTaiwanDateParts(date) {
       const y = date.getFullYear() - 1911;
       const m = String(date.getMonth() + 1).padStart(2, '0');
       const d = String(date.getDate()).padStart(2, '0');
       return { year: y, month: m, day: d };
     }
-
     function addDays(date, days) {
       const result = new Date(date);
       result.setDate(result.getDate() + days);
       return result;
     }
-
     function fillContract() {
       // PAGE 1
       document.getElementById('sellerNameField').innerText = document.getElementById('name').value;
@@ -251,51 +257,45 @@
       document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
       document.getElementById('accountNumberField').innerText = document.getElementById('account').value;
       document.getElementById('signerIdField').innerText = document.getElementById('id').value;
-      
       const today = new Date();
       const taiwan = toTaiwanDateParts(today);
       document.getElementById('yearField').innerText = taiwan.year;
       document.getElementById('monthField').innerText = taiwan.month;
       document.getElementById('dayField').innerText = taiwan.day;
-
       // PAGE 2
       document.getElementById('contractorNameField').innerText = document.getElementById('name').value;
       document.getElementById('model2Field').innerText = document.getElementById('model').value;
       document.getElementById('imei2Field').innerText = document.getElementById('imei').value;
       document.getElementById('price2Field').innerText = formatNumber(document.getElementById('price').value);
-      
-      // 租賃期間（起始日）
       document.getElementById('startYearField').innerText = taiwan.year;
       document.getElementById('startMonthField').innerText = taiwan.month;
       document.getElementById('startDayField').innerText = taiwan.day;
-      
-      // 租賃期間（到期日 = 簽約日+7天）
       const endDate = addDays(today, 7);
       const endTaiwan = toTaiwanDateParts(endDate);
       document.getElementById('endYearField').innerText = endTaiwan.year;
       document.getElementById('endMonthField').innerText = endTaiwan.month;
       document.getElementById('endDayField').innerText = endTaiwan.day;
-      
-      // 租金
       document.getElementById('rent2Field').innerText = formatNumber(document.getElementById('rent').value);
-      
-      // 最下方地址、身分證
       document.getElementById('address2Field').innerText = document.getElementById('address').value;
       document.getElementById('id2Field').innerText = document.getElementById('id').value;
-      
-      // 簽約日
       document.getElementById('year2Field').innerText = taiwan.year;
       document.getElementById('month2Field').innerText = taiwan.month;
       document.getElementById('day2Field').innerText = taiwan.day;
+      // PAGE 3
+      document.getElementById('signerId3Field').innerText = document.getElementById('id').value;
+      document.getElementById('year3Field').innerText = taiwan.year;
+      document.getElementById('month3Field').innerText = taiwan.month;
+      document.getElementById('day3Field').innerText = taiwan.day;
     }
-
     async function downloadPDF() {
       const jsPDF = window.jspdf.jsPDF;
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const pages = [document.getElementById('contractPage1'), document.getElementById('contractPage2')];
-      
+      const pages = [
+        document.getElementById('contractPage1'),
+        document.getElementById('contractPage2'),
+        document.getElementById('contractPage3')
+      ];
       for (let i = 0; i < pages.length; i++) {
-        // 確保圖片已載入
         await new Promise(resolve => {
           const bg = pages[i].style.backgroundImage;
           if (!bg) return resolve();
@@ -306,17 +306,14 @@
           img.src = url;
           if (img.complete) resolve();
         });
-        
         const canvas = await html2canvas(pages[i], { scale: 2, useCORS: true });
         const imgData = canvas.toDataURL('image/jpeg', 1.0);
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        
         if (i > 0) pdf.addPage();
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
       }
-      
       const name = document.getElementById('name').value || '合約';
       pdf.save(`${name}-手機對保合約.pdf`);
     }
