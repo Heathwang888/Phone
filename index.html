@@ -169,14 +169,14 @@
   <div class="page-container">
     <div class="page" id="contractPage">
       <!-- 出賣人 -->
-      <div class="field" id="sellerNameField" style="top:175px; left:180px;"></div>
+      <div class="field" id="sellerNameField" style="top:175px; left:183px;"></div>
       <div class="field" id="sellerIdField" style="top:175px; left:420px;"></div>
-      <div class="field" id="sellerAddressField" style="top:210px; left:180px;"></div>
+      <div class="field" id="sellerAddressField" style="top:210px; left:183px;"></div>
       <!-- 標的物 -->
       <div class="field" id="phoneModelField" style="top:370px; left:300px;"></div>
-      <div class="field" id="imeiField" style="top:370px; left:520px;"></div>
+      <div class="field" id="imeiField" style="top:370px; left:510px;"></div>
       <!-- 交易總價 -->
-      <div class="field" id="totalPriceField" style="top:500px; left:262px;"></div>
+      <div class="field" id="totalPriceField" style="top:500px; left:265px;"></div>
       <!-- 行庫分行、戶名、帳號 -->
       <div class="field" id="bankBranchField" style="top:595px; left:215px;"></div>
       <div class="field" id="accountNameField" style="top:595px; left:400px;"></div>
@@ -191,32 +191,40 @@
   </div>
 
   <script>
-    function toTaiwanDateParts(date) {
-      const y = date.getFullYear() - 1911;
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const d = String(date.getDate()).padStart(2, '0');
-      return { year: y, month: m, day: d };
-    }
+    function formatNumber(num) {
+    // 確保輸入是數字，如果不是數字就返回原值
+    if (!num || isNaN(num)) return num;
+    // 將數字轉為千分位格式
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
-    function fillContract() {
-      document.getElementById('sellerNameField').innerText = document.getElementById('name').value;
-      document.getElementById('sellerIdField').innerText = document.getElementById('id').value;
-      document.getElementById('sellerAddressField').innerText = document.getElementById('address').value;
-      document.getElementById('phoneModelField').innerText = document.getElementById('model').value;
-      document.getElementById('imeiField').innerText = document.getElementById('imei').value;
-      document.getElementById('totalPriceField').innerText = document.getElementById('price').value;
-      document.getElementById('bankBranchField').innerText = document.getElementById('bank').value;
-      document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
-      document.getElementById('accountNumberField').innerText = document.getElementById('account').value;
-      document.getElementById('signerIdField').innerText = document.getElementById('id').value;
+function fillContract() {
+    document.getElementById('sellerNameField').innerText = document.getElementById('name').value;
+    document.getElementById('sellerIdField').innerText = document.getElementById('id').value;
+    document.getElementById('sellerAddressField').innerText = document.getElementById('address').value;
+    document.getElementById('phoneModelField').innerText = document.getElementById('model').value;
+    document.getElementById('imeiField').innerText = document.getElementById('imei').value;
+    
+    // 總價加上千分位
+    const price = document.getElementById('price').value;
+    document.getElementById('totalPriceField').innerText = formatNumber(price);
+    
+    // 租金加上千分位
+    const rent = document.getElementById('rent').value;
+    document.getElementById('rentField').innerText = formatNumber(rent);
+    
+    document.getElementById('bankBranchField').innerText = document.getElementById('bank').value;
+    document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
+    document.getElementById('accountNumberField').innerText = document.getElementById('account').value;
+    document.getElementById('signerIdField').innerText = document.getElementById('id').value;
 
-      // 日期
-      const today = new Date();
-      const taiwan = toTaiwanDateParts(today);
-      document.getElementById('yearField').innerText = taiwan.year;
-      document.getElementById('monthField').innerText = taiwan.month;
-      document.getElementById('dayField').innerText = taiwan.day;
-    }
+    // 日期
+    const today = new Date();
+    const taiwan = toTaiwanDateParts(today);
+    document.getElementById('yearField').innerText = taiwan.year;
+    document.getElementById('monthField').innerText = taiwan.month;
+    document.getElementById('dayField').innerText = taiwan.day;
+}
 
     async function downloadPDF() {
       const jsPDF = window.jspdf.jsPDF;
