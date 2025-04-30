@@ -2,27 +2,14 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>手機對保合約 - 自動填寫</title>
+  <title>手機對保合約 - 正式版</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    body { margin: 0; padding: 20px; font-family: 'Noto Sans TC', sans-serif; }
+    body { font-family: 'Noto Sans TC', sans-serif; padding: 20px; }
     .form-group { margin-bottom: 10px; }
-    .page {
-      position: relative;
-      width: 210mm;
-      height: 297mm;
-      background-size: cover;
-      background-repeat: no-repeat;
-      margin: 30px auto;
-    }
-    .text-field {
-      position: absolute;
-      font-size: 14px;
-      font-weight: bold;
-      color: #000;
-      white-space: nowrap;
-    }
+    .page { position: relative; width: 794px; height: 1123px; background-size: cover; margin: 30px auto; }
+    .text-field { position: absolute; font-size: 14px; font-weight: bold; color: #000; white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -52,6 +39,11 @@
       <option>iPhone 15 Plus</option>
       <option>iPhone 15 Pro</option>
       <option>iPhone 15 Pro Max</option>
+      <option>iPhone 16 </option>
+      <option>iPhone 16 e</option>
+      <option>iPhone 16 Plus</option>
+      <option>iPhone 16 Pro</option>
+      <option>iPhone 16 Pro Max</option>
     </select>
   </div>
   <div class="form-group">
@@ -74,7 +66,37 @@
   <button type="button" onclick="downloadPDF()">下載 PDF 合約</button>
 </form>
 
-<!-- 以下 contract page 略（保持不變） -->
+<!-- 三頁合約背景圖，請替換下方 URL 為你自己的空白圖檔路徑 -->
+<div class="page" style="background-image: url('page_1.jpg');">
+  <div class="text-field" id="name1" style="top:115px; left:140px;"></div>
+  <div class="text-field" id="id1" style="top:115px; left:375px;"></div>
+  <div class="text-field" id="address1" style="top:140px; left:140px;"></div>
+  <div class="text-field" id="model1" style="top:220px; left:215px;"></div>
+  <div class="text-field" id="capacity1" style="top:220px; left:470px;"></div>
+  <div class="text-field" id="imei1" style="top:245px; left:160px;"></div>
+  <div class="text-field" id="price1" style="top:320px; left:180px;"></div>
+  <div class="text-field" id="bank1" style="top:350px; left:140px;"></div>
+  <div class="text-field" id="account1" style="top:370px; left:140px;"></div>
+  <div class="text-field" id="accountName1" style="top:370px; left:420px;"></div>
+  <div class="text-field" id="date1" style="top:760px; left:460px;"></div>
+</div>
+<div class="page" style="background-image: url('page_2.jpg');">
+  <div class="text-field" id="name2" style="top:135px; left:140px;"></div>
+  <div class="text-field" id="id2" style="top:135px; left:375px;"></div>
+  <div class="text-field" id="address2" style="top:160px; left:140px;"></div>
+  <div class="text-field" id="model2" style="top:230px; left:230px;"></div>
+  <div class="text-field" id="capacity2" style="top:230px; left:470px;"></div>
+  <div class="text-field" id="imei2" style="top:260px; left:160px;"></div>
+  <div class="text-field" id="price2" style="top:290px; left:180px;"></div>
+  <div class="text-field" id="rent2" style="top:320px; left:180px;"></div>
+  <div class="text-field" id="date2" style="top:630px; left:440px;"></div>
+</div>
+<div class="page" style="background-image: url('page_3.jpg');">
+  <div class="text-field" id="name3" style="top:210px; left:140px;"></div>
+  <div class="text-field" id="id3" style="top:210px; left:360px;"></div>
+  <div class="text-field" id="address3" style="top:210px; left:540px;"></div>
+  <div class="text-field" id="date3" style="top:580px; left:460px;"></div>
+</div>
 
 <script>
 function toTaiwanDate(date) {
@@ -99,31 +121,26 @@ function fillData() {
   const today = new Date();
   const taiwanToday = toTaiwanDate(today);
 
-  document.getElementById('name1').innerText = name;
-  document.getElementById('id1').innerText = id;
-  document.getElementById('address1').innerText = address;
+  for (let i = 1; i <= 3; i++) {
+    document.getElementById(`name${i}`).innerText = name;
+    document.getElementById(`id${i}`).innerText = id;
+    document.getElementById(`address${i}`).innerText = address;
+  }
   document.getElementById('model1').innerText = model;
   document.getElementById('capacity1').innerText = capacity;
   document.getElementById('imei1').innerText = imei;
   document.getElementById('price1').innerText = price;
   document.getElementById('bank1').innerText = bank;
-  document.getElementById('accountName1').innerText = accountName;
   document.getElementById('account1').innerText = account;
+  document.getElementById('accountName1').innerText = accountName;
   document.getElementById('date1').innerText = taiwanToday;
 
-  document.getElementById('name2').innerText = name;
-  document.getElementById('id2').innerText = id;
-  document.getElementById('address2').innerText = address;
   document.getElementById('model2').innerText = model;
   document.getElementById('capacity2').innerText = capacity;
   document.getElementById('imei2').innerText = imei;
   document.getElementById('price2').innerText = price;
   document.getElementById('rent2').innerText = rent;
   document.getElementById('date2').innerText = taiwanToday;
-
-  document.getElementById('name3').innerText = name;
-  document.getElementById('id3').innerText = id;
-  document.getElementById('address3').innerText = address;
   document.getElementById('date3').innerText = taiwanToday;
 }
 
@@ -144,6 +161,5 @@ async function downloadPDF() {
   pdf.save(`${name}-手機對保合約.pdf`);
 }
 </script>
-
 </body>
 </html>
