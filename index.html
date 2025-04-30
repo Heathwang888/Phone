@@ -2,45 +2,241 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>定位測試頁 - 手機對保合約</title>
+  <title>手機對保合約 - 定位測試</title>
+  <meta name="viewport" content="width=794">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
       font-family: 'Noto Sans TC', sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      text-align: center;
+      margin: 30px 0 10px 0;
+    }
+    form {
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+      background: #fff;
+      padding: 20px 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+    input, select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+    button {
+      width: 48%;
+      padding: 10px;
+      margin: 5px 1%;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background: #1976d2;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+    }
+    .page-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
     }
     .page {
       position: relative;
-      width: 1448px;
-      height: 2048px;
-      background-image: url('page1.jpg');
+      width: 794px;
+      height: 1123px;
+      background-image: url('images/page1.jpg');
       background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
       border: 1px solid #aaa;
       margin: auto;
     }
     .field {
       position: absolute;
-      font-size: 24px;
+      font-size: 18px;
       color: #000;
       font-weight: bold;
+      letter-spacing: 2px;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+    @media (max-width: 900px) {
+      .page {
+        width: 350px;
+        height: 495px;
+        font-size: 12px;
+      }
+      .field {
+        font-size: 10px;
+      }
+    }
+    @media (max-width: 500px) {
+      .page {
+        width: 250px;
+        height: 353px;
+      }
+      .field {
+        font-size: 8px;
+      }
+      form {
+        padding: 10px 5px;
+      }
     }
   </style>
 </head>
 <body>
-  <h2 style="text-align:center;">📄 手機對保合約 定位測試頁</h2>
-  <div class="page">
-    <div class="field" style="top:330px; left:220px;">張三</div>
-    <div class="field" style="top:330px; left:700px;">A123456789</div>
-    <div class="field" style="top:390px; left:220px;">高雄市苓雅區OO路</div>
-    <div class="field" style="top:470px; left:220px;">李四</div>
-    <div class="field" style="top:470px; left:700px;">B987654321</div>
-    <div class="field" style="top:520px; left:220px;">高雄市鼓山區XX街</div>
-    <div class="field" style="top:610px; left:220px;">APPLE</div>
-    <div class="field" style="top:610px; left:500px;">iPhone 13</div>
-    <div class="field" style="top:610px; left:840px;">354894123456789</div>
-    <div class="field" style="top:910px; left:220px;">8000元</div>
-    <div class="field" style="top:990px; left:200px;">永豐銀行鳳山分行</div>
-    <div class="field" style="top:990px; left:590px;">李四</div>
-    <div class="field" style="top:990px; left:960px;">3025023493821</div>
-    <div class="field" style="top:1850px; left:1100px;">民國114年05月01日</div>
+  <h2>手機對保資料填寫</h2>
+  <form id="dataForm" autocomplete="off">
+    <div class="form-group"><label>姓名<input id="name" autocomplete="off"></label></div>
+    <div class="form-group"><label>身分證字號<input id="id" autocomplete="off"></label></div>
+    <div class="form-group"><label>地址<input id="address" autocomplete="off"></label></div>
+    <div class="form-group">
+      <label>手機型號</label>
+      <select id="model">
+        <option value="">請選擇型號</option>
+        <option>iPhone 12</option>
+        <option>iPhone 12 mini</option>
+        <option>iPhone 12 Pro</option>
+        <option>iPhone 12 Pro Max</option>
+        <option>iPhone 13</option>
+        <option>iPhone 13 mini</option>
+        <option>iPhone 13 Pro</option>
+        <option>iPhone 13 Pro Max</option>
+        <option>iPhone 14</option>
+        <option>iPhone 14 Plus</option>
+        <option>iPhone 14 Pro</option>
+        <option>iPhone 14 Pro Max</option>
+        <option>iPhone 15</option>
+        <option>iPhone 15 Plus</option>
+        <option>iPhone 15 Pro</option>
+        <option>iPhone 15 Pro Max</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>容量</label>
+      <select id="capacity">
+        <option value="">請選擇容量</option>
+        <option>128G</option>
+        <option>256G</option>
+        <option>512G</option>
+        <option>1TB</option>
+      </select>
+    </div>
+    <div class="form-group"><label>IMEI碼<input id="imei" autocomplete="off"></label></div>
+    <div class="form-group"><label>總價（元）<input id="price" autocomplete="off"></label></div>
+    <div class="form-group"><label>每日租金（元）<input id="rent" autocomplete="off"></label></div>
+    <div class="form-group"><label>銀行分行<input id="bank" autocomplete="off"></label></div>
+    <div class="form-group"><label>戶名<input id="accountName" autocomplete="off"></label></div>
+    <div class="form-group"><label>帳號<input id="account" autocomplete="off"></label></div>
+    <div class="button-group">
+      <button type="button" onclick="fillContract()">套入合約資料</button>
+      <button type="button" onclick="downloadPDF()">下載 PDF 合約</button>
+    </div>
+  </form>
+
+  <div class="page-container">
+    <div class="page" id="contractPage">
+      <!-- 出賣人 -->
+      <div class="field" id="sellerName" style="top:120px; left:180px;"></div>
+      <div class="field" id="sellerId" style="top:120px; left:400px;"></div>
+      <div class="field" id="sellerAddress" style="top:150px; left:180px;"></div>
+      <!-- 標的物 -->
+      <div class="field" id="phoneModel" style="top:260px; left:320px;"></div>
+      <div class="field" id="imei" style="top:260px; left:540px;"></div>
+      <!-- 交易總價 -->
+      <div class="field" id="totalPrice" style="top:470px; left:260px;"></div>
+      <!-- 行庫分行、戶名、帳號 -->
+      <div class="field" id="bankBranch" style="top:540px; left:180px;"></div>
+      <div class="field" id="accountNameField" style="top:540px; left:400px;"></div>
+      <div class="field" id="accountNumber" style="top:540px; left:600px;"></div>
+      <!-- 最下方身分證字號 -->
+      <div class="field" id="signerId" style="top:1020px; left:180px;"></div>
+      <!-- 年月日 -->
+      <div class="field" id="year" style="top:1080px; left:220px;"></div>
+      <div class="field" id="month" style="top:1080px; left:320px;"></div>
+      <div class="field" id="day" style="top:1080px; left:420px;"></div>
+    </div>
   </div>
+
+  <script>
+    function toTaiwanDateParts(date) {
+      const y = date.getFullYear() - 1911;
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return { year: y, month: m, day: d };
+    }
+
+    function fillContract() {
+      document.getElementById('sellerName').innerText = document.getElementById('name').value;
+      document.getElementById('sellerId').innerText = document.getElementById('id').value;
+      document.getElementById('sellerAddress').innerText = document.getElementById('address').value;
+      document.getElementById('phoneModel').innerText = document.getElementById('model').value;
+      document.getElementById('imei').innerText = document.getElementById('imei').value;
+      document.getElementById('totalPrice').innerText = document.getElementById('price').value ? document.getElementById('price').value + '元' : '';
+      document.getElementById('bankBranch').innerText = document.getElementById('bank').value;
+      document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
+      document.getElementById('accountNumber').innerText = document.getElementById('account').value;
+      document.getElementById('signerId').innerText = document.getElementById('id').value;
+
+      // 日期
+      const today = new Date();
+      const taiwan = toTaiwanDateParts(today);
+      document.getElementById('year').innerText = taiwan.year;
+      document.getElementById('month').innerText = taiwan.month;
+      document.getElementById('day').innerText = taiwan.day;
+    }
+
+    async function downloadPDF() {
+      const jsPDF = window.jspdf.jsPDF;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const page = document.getElementById('contractPage');
+      // 確保圖片已載入
+      await new Promise(resolve => {
+        const bg = page.style.backgroundImage;
+        if (!bg) return resolve();
+        const url = bg.slice(5, -2);
+        const img = new window.Image();
+        img.onload = resolve;
+        img.onerror = resolve;
+        img.src = url;
+        if (img.complete) resolve();
+      });
+      const canvas = await html2canvas(page, { scale: 2, useCORS: true });
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+      const name = document.getElementById('name').value || '合約';
+      pdf.save(`${name}-手機對保合約.pdf`);
+    }
+  </script>
 </body>
 </html>
