@@ -198,34 +198,46 @@
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function fillContract() {
-    document.getElementById('sellerNameField').innerText = document.getElementById('name').value;
-    document.getElementById('sellerIdField').innerText = document.getElementById('id').value;
-    document.getElementById('sellerAddressField').innerText = document.getElementById('address').value;
-    document.getElementById('phoneModelField').innerText = document.getElementById('model').value;
-    document.getElementById('imeiField').innerText = document.getElementById('imei').value;
-    
-    // 總價加上千分位
-    const price = document.getElementById('price').value;
-    document.getElementById('totalPriceField').innerText = formatNumber(price);
-    
-    // 租金加上千分位
-    const rent = document.getElementById('rent').value;
-    document.getElementById('rentField').innerText = formatNumber(rent);
-    
-    document.getElementById('bankBranchField').innerText = document.getElementById('bank').value;
-    document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
-    document.getElementById('accountNumberField').innerText = document.getElementById('account').value;
-    document.getElementById('signerIdField').innerText = document.getElementById('id').value;
-
-    // 日期
-    const today = new Date();
-    const taiwan = toTaiwanDateParts(today);
-    document.getElementById('yearField').innerText = taiwan.year;
-    document.getElementById('monthField').innerText = taiwan.month;
-    document.getElementById('dayField').innerText = taiwan.day;
+function toTaiwanDateParts(date) {
+  const y = date.getFullYear() - 1911;
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return { year: y, month: m, day: d };
 }
 
+function formatNumber(num) {
+  // 確保輸入是數字，如果不是數字就返回原值
+  if (!num || isNaN(num)) return num;
+  // 將數字轉為千分位格式
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function fillContract() {
+  document.getElementById('sellerNameField').innerText = document.getElementById('name').value;
+  document.getElementById('sellerIdField').innerText = document.getElementById('id').value;
+  document.getElementById('sellerAddressField').innerText = document.getElementById('address').value;
+  document.getElementById('phoneModelField').innerText = document.getElementById('model').value;
+  document.getElementById('imeiField').innerText = document.getElementById('imei').value;
+  
+  // 總價加上千分位
+  const price = document.getElementById('price').value;
+  document.getElementById('totalPriceField').innerText = formatNumber(price);
+  
+  // 銀行資訊
+  document.getElementById('bankBranchField').innerText = document.getElementById('bank').value;
+  document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
+  document.getElementById('accountNumberField').innerText = document.getElementById('account').value;
+  
+  // 最下方身分證字號
+  document.getElementById('signerIdField').innerText = document.getElementById('id').value;
+
+  // 日期
+  const today = new Date();
+  const taiwan = toTaiwanDateParts(today);
+  document.getElementById('yearField').innerText = taiwan.year;
+  document.getElementById('monthField').innerText = taiwan.month;
+  document.getElementById('dayField').innerText = taiwan.day;
+}
     async function downloadPDF() {
       const jsPDF = window.jspdf.jsPDF;
       const pdf = new jsPDF('p', 'mm', 'a4');
