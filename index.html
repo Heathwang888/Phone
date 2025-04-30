@@ -1,277 +1,54 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <title>手機對保合約 - 正式版</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Google Fonts for Noto Sans TC -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body {
-      font-family: 'Noto Sans TC', sans-serif;
-      padding: 20px;
-      background: #f7f7f7;
-      margin: 0;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    form {
-      max-width: 400px;
-      margin: 0 auto 30px auto;
-      background: #fff;
-      padding: 20px 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .form-group {
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-    }
-    label {
-      font-size: 15px;
-      margin-bottom: 5px;
-    }
-    input, select {
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 15px;
-    }
-    button {
-      width: 48%;
-      padding: 10px;
-      margin: 5px 1%;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      background: #1976d2;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background: #1565c0;
-    }
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-    }
-    .pages-container {
-      overflow-x: auto;
-      display: flex;
-      gap: 20px;
-      padding-bottom: 20px;
-    }
-    .page {
-      position: relative;
-      width: 794px;
-      height: 1123px;
-      background-size: cover;
-      background-position: center;
-      margin: 0 auto;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-      border-radius: 10px;
-      flex-shrink: 0;
-      background-color: #fff;
-    }
-    .text-field {
-      position: absolute;
-      font-size: 16px;
-      font-weight: bold;
-      color: #000;
-      white-space: nowrap;
-      pointer-events: none;
-      /* 防止被選取 */
-      user-select: none;
-    }
-    /* 響應式設計 */
-    @media (max-width: 900px) {
-      .page {
-        width: 350px;
-        height: 495px;
-        font-size: 12px;
-      }
-      .text-field {
-        font-size: 10px;
-      }
-    }
-    @media (max-width: 500px) {
-      .page {
-        width: 250px;
-        height: 353px;
-      }
-      .text-field {
-        font-size: 8px;
-      }
-      form {
-        padding: 10px 5px;
-      }
-    }
-  </style>
-</head>
-<body>
+<div style="max-width: 800px; margin: auto; font-family: 'Noto Sans TC', sans-serif; font-size: 14px; color: #000; line-height: 1.8;">
+  <h2 style="text-align:center; font-weight:bold;">中 古 手 機 買 賣 契 約</h2>
 
-<h2>手機對保資料填寫</h2>
-<form id="dataForm" autocomplete="off">
-  <div class="form-group"><label>姓名<input id="name" autocomplete="off"></label></div>
-  <div class="form-group"><label>身分證字號<input id="id" autocomplete="off"></label></div>
-  <div class="form-group"><label>地址<input id="address" autocomplete="off"></label></div>
-  <div class="form-group">
-    <label>手機型號</label>
-    <select id="model">
-      <option value="">請選擇型號</option>
-      <option>iPhone 12</option>
-      <option>iPhone 12 mini</option>
-      <option>iPhone 12 Pro</option>
-      <option>iPhone 12 Pro Max</option>
-      <option>iPhone 13</option>
-      <option>iPhone 13 mini</option>
-      <option>iPhone 13 Pro</option>
-      <option>iPhone 13 Pro Max</option>
-      <option>iPhone 14</option>
-      <option>iPhone 14 Plus</option>
-      <option>iPhone 14 Pro</option>
-      <option>iPhone 14 Pro Max</option>
-      <option>iPhone 15</option>
-      <option>iPhone 15 Plus</option>
-      <option>iPhone 15 Pro</option>
-      <option>iPhone 15 Pro Max</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label>容量</label>
-    <select id="capacity">
-      <option value="">請選擇容量</option>
-      <option>128G</option>
-      <option>256G</option>
-      <option>512G</option>
-      <option>1TB</option>
-    </select>
-  </div>
-  <div class="form-group"><label>IMEI碼<input id="imei" autocomplete="off"></label></div>
-  <div class="form-group"><label>總價（元）<input id="price" autocomplete="off"></label></div>
-  <div class="form-group"><label>每日租金（元）<input id="rent" autocomplete="off"></label></div>
-  <div class="form-group"><label>銀行分行<input id="bank" autocomplete="off"></label></div>
-  <div class="form-group"><label>戶名<input id="accountName" autocomplete="off"></label></div>
-  <div class="form-group"><label>帳號<input id="account" autocomplete="off"></label></div>
-  <div class="button-group">
-    <button type="button" onclick="fillData()">套入合約資料</button>
-    <button type="button" onclick="downloadPDF()">下載 PDF 合約</button>
-  </div>
-</form>
+  <p>買受人茲確認已於簽訂本契約前攜回審閱且充分明瞭本契約，並同意日後不爭執審閱期間及本契約內容。</p>
 
-<div class="pages-container">
-  <!-- 三頁合約背景圖，請將 images/page_1.jpg, images/page_2.jpg, images/page_3.jpg 放在 images 資料夾 -->
-  <div class="page" style="background-image: url('images/page_1.jpg');">
-    <div class="text-field" id="name1" style="top:115px; left:140px;"></div>
-    <div class="text-field" id="id1" style="top:115px; left:375px;"></div>
-    <div class="text-field" id="address1" style="top:140px; left:140px;"></div>
-    <div class="text-field" id="model1" style="top:220px; left:215px;"></div>
-    <div class="text-field" id="capacity1" style="top:220px; left:470px;"></div>
-    <div class="text-field" id="imei1" style="top:245px; left:160px;"></div>
-    <div class="text-field" id="price1" style="top:320px; left:180px;"></div>
-    <div class="text-field" id="bank1" style="top:350px; left:140px;"></div>
-    <div class="text-field" id="account1" style="top:370px; left:140px;"></div>
-    <div class="text-field" id="accountName1" style="top:370px; left:420px;"></div>
-    <div class="text-field" id="date1" style="top:760px; left:460px;"></div>
-  </div>
-  <div class="page" style="background-image: url('images/page_2.jpg');">
-    <div class="text-field" id="name2" style="top:135px; left:140px;"></div>
-    <div class="text-field" id="id2" style="top:135px; left:375px;"></div>
-    <div class="text-field" id="address2" style="top:160px; left:140px;"></div>
-    <div class="text-field" id="model2" style="top:230px; left:230px;"></div>
-    <div class="text-field" id="capacity2" style="top:230px; left:470px;"></div>
-    <div class="text-field" id="imei2" style="top:260px; left:160px;"></div>
-    <div class="text-field" id="price2" style="top:290px; left:180px;"></div>
-    <div class="text-field" id="rent2" style="top:320px; left:180px;"></div>
-    <div class="text-field" id="date2" style="top:630px; left:440px;"></div>
-  </div>
-  <div class="page" style="background-image: url('images/page_3.jpg');">
-    <div class="text-field" id="name3" style="top:210px; left:140px;"></div>
-    <div class="text-field" id="id3" style="top:210px; left:360px;"></div>
-    <div class="text-field" id="address3" style="top:210px; left:540px;"></div>
-    <div class="text-field" id="date3" style="top:580px; left:460px;"></div>
-  </div>
+  <h4>出賣人</h4>
+  <p>姓名：＿＿＿＿＿＿＿＿＿　身分證字號：＿＿＿＿＿＿＿＿＿＿＿</p>
+  <p>地址：＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</p>
+
+  <h4>買受人</h4>
+  <p>姓名：＿＿＿＿＿＿＿＿＿　身分證字號：＿＿＿＿＿＿＿＿＿＿＿</p>
+  <p>地址：＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</p>
+
+  <h4>標的物</h4>
+  <p>手機廠牌：＿＿＿＿＿＿＿　手機型號：＿＿＿＿＿＿＿＿＿＿＿　IMEI碼：＿＿＿＿＿＿＿＿＿＿＿</p>
+
+  <h4>標的物現況</h4>
+  <p>有無動產抵押及其他負擔：□無 □有 債權人：＿＿＿＿＿＿＿＿ 抵押(負擔)金額：＿＿＿＿＿＿＿＿</p>
+  <p>有以下瑕疵狀況：<br>
+    □螢幕觸控異常 □螢幕破裂 □螢幕顯示功能異常 □充電功能異常 □實體部件異常(音量鍵、電源鍵、靜音切換鍵等)<br>
+    □訊號接收異常 □生物辨識功能異常 □相機(鏡頭)功能異常 □聽筒與麥克風異常 □SIM卡讀取異常 □喇叭及震動功能異常
+  </p>
+
+  <h4>價金給付方式</h4>
+  <p>交易總價：新台幣＿＿＿＿＿＿元整。</p>
+  <p>交易總價即指買受人應給付之全部價金，出賣人不得再以其他名義，要求買受人給付額外之金額。</p>
+  <p>以現金匯付至下列指定帳戶：</p>
+  <p>行庫分行：＿＿＿＿＿＿＿＿＿　戶名：＿＿＿＿＿＿＿＿＿　帳號：＿＿＿＿＿＿＿＿＿＿＿＿</p>
+
+  <h4>交付方式</h4>
+  <p>出賣人與買受人約定以民法第761條所規定之占有改定為交付方式，讓買受人取得間接占有。</p>
+
+  <h4>保固責任</h4>
+  <p>出賣人及買受人同意以現況交付，出賣人不負瑕疵擔保責任。</p>
+
+  <h4>其他約定事項</h4>
+  <ul>
+    <li>出賣人擔保本件標的非贓物，且無來路不明、產權糾紛或其他權利瑕疵之情事。</li>
+    <li>出賣人擔保本件標的未曾發生重大損壞或更改原廠設定。重大損壞指：無法開機、泡水、螢幕裂損等。</li>
+    <li>更改原廠設定係指：刷機(Root)、越獄(Jailbreak)、變更IMEI碼等。</li>
+    <li>標的物之利益及危險，自交付日起由買受人負擔；惟如仍由出賣人占有，則由出賣人負擔。</li>
+    <li>如有修改，應經雙方書面同意。</li>
+    <li>未盡事宜，雙方協議或依誠信原則辦理，涉訟以臺灣高雄地方法院為第一審管轄法院。</li>
+  </ul>
+
+  <p>本契約書正本壹式貳份，由買受人及出賣人各執一份正本。</p>
+  <p>雙方同意以電子方式簽署本契約書。</p>
+
+  <p style="text-align:right;">立契約書人：</p>
+  <p style="text-align:left;">出賣人：＿＿＿＿＿＿＿＿（簽章）　　　　買受人：＿＿＿＿＿＿＿＿（簽章）</p>
+  <p style="text-align:left;">身分證字號：＿＿＿＿＿＿＿＿＿＿　　　身分證字號：＿＿＿＿＿＿＿＿＿＿</p>
+
+  <p style="text-align:right;">中華民國　　年　　月　　日</p>
 </div>
-
-<script>
-function toTaiwanDate(date) {
-  const y = date.getFullYear() - 1911;
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `民國${y}年${m}月${d}日`;
-}
-
-function fillData() {
-  const name = document.getElementById('name').value;
-  const id = document.getElementById('id').value;
-  const address = document.getElementById('address').value;
-  const model = document.getElementById('model').value;
-  const capacity = document.getElementById('capacity').value;
-  const imei = document.getElementById('imei').value;
-  const price = document.getElementById('price').value;
-  const rent = document.getElementById('rent').value;
-  const bank = document.getElementById('bank').value;
-  const accountName = document.getElementById('accountName').value;
-  const account = document.getElementById('account').value;
-  const today = new Date();
-  const taiwanToday = toTaiwanDate(today);
-
-  for (let i = 1; i <= 3; i++) {
-    document.getElementById(`name${i}`).innerText = name;
-    document.getElementById(`id${i}`).innerText = id;
-    document.getElementById(`address${i}`).innerText = address;
-  }
-  document.getElementById('model1').innerText = model;
-  document.getElementById('capacity1').innerText = capacity;
-  document.getElementById('imei1').innerText = imei;
-  document.getElementById('price1').innerText = price;
-  document.getElementById('bank1').innerText = bank;
-  document.getElementById('account1').innerText = account;
-  document.getElementById('accountName1').innerText = accountName;
-  document.getElementById('date1').innerText = taiwanToday;
-
-  document.getElementById('model2').innerText = model;
-  document.getElementById('capacity2').innerText = capacity;
-  document.getElementById('imei2').innerText = imei;
-  document.getElementById('price2').innerText = price;
-  document.getElementById('rent2').innerText = rent;
-  document.getElementById('date2').innerText = taiwanToday;
-  document.getElementById('date3').innerText = taiwanToday;
-}
-
-async function downloadPDF() {
-  const jsPDF = window.jspdf.jsPDF;
-  const pdf = new jsPDF('p', 'mm', 'a4');
-  const pages = document.querySelectorAll('.page');
-  for (let i = 0; i < pages.length; i++) {
-    // 確保圖片已載入
-    await new Promise(resolve => {
-      const bg = pages[i].style.backgroundImage;
-      if (!bg) return resolve();
-      const url = bg.slice(5, -2);
-      const img = new window.Image();
-      img.onload = resolve;
-      img.onerror = resolve;
-      img.src = url;
-      if (img.complete) resolve();
-    });
-    const canvas = await html2canvas(pages[i], { scale: 2, useCORS: true });
-    const imgData = canvas.toDataURL('image/jpeg', 1.0);
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-    if (i > 0) pdf.addPage();
-    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-  }
-  const name = document.getElementById('name').value || '合約';
-  pdf.save(`${name}-手機對保合約.pdf`);
-}
-</script>
-</body>
-</html>
