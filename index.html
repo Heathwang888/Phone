@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>手機對保合約</title>
+  <title>手機對保合約 - 定位測試</title>
   <meta name="viewport" content="width=1448">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -85,27 +85,30 @@
       margin-top: 30px;
     }
 
-    /* 隱藏預覽頁面 */
-    /* 修改這部分 */
-.page-container {
-  visibility: hidden;
-  position: absolute;
-  left: -9999px;
-  margin-bottom: 40px;
-}
+    /* 隱藏預覽頁面但保持可渲染 */
+    .page-container {
+      visibility: hidden;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
 
-.page {
-  position: relative;
-  width: 1448px;
-  height: 2048px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  border: 1px solid #aaa;
-  margin: 40px auto;
-  background-repeat: no-repeat;
-}
+    .page {
+      position: relative;
+      width: 1448px;
+      height: 2048px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      border: 1px solid #aaa;
+      margin: 40px auto;
+      background-repeat: no-repeat;
+    }
 
     .field {
       position: absolute;
@@ -140,9 +143,18 @@
 <body>
   <h2>手機對保資料填寫</h2>
   <form id="dataForm" autocomplete="off">
-    <div class="form-group"><label>姓名<input id="name" autocomplete="off"></label></div>
-    <div class="form-group"><label>身分證字號<input id="id" autocomplete="off"></label></div>
-    <div class="form-group"><label>地址<input id="address" autocomplete="off"></label></div>
+    <div class="form-group">
+      <label>姓名</label>
+      <input id="name" placeholder="請輸入姓名" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>身分證字號</label>
+      <input id="id" placeholder="請輸入身分證字號" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>地址</label>
+      <input id="address" placeholder="請輸入完整地址" autocomplete="off">
+    </div>
     <div class="form-group">
       <label>手機型號</label>
       <select id="model">
@@ -180,12 +192,30 @@
         <option>1TB</option>
       </select>
     </div>
-    <div class="form-group"><label>IMEI碼<input id="imei" autocomplete="off"></label></div>
-    <div class="form-group"><label>總價<input id="price" autocomplete="off"></label></div>
-    <div class="form-group"><label>每周租金<input id="rent" autocomplete="off"></label></div>
-    <div class="form-group"><label>銀行分行<input id="bank" autocomplete="off"></label></div>
-    <div class="form-group"><label>戶名<input id="accountName" autocomplete="off"></label></div>
-    <div class="form-group"><label>帳號<input id="account" autocomplete="off"></label></div>
+    <div class="form-group">
+      <label>IMEI碼</label>
+      <input id="imei" placeholder="請輸入IMEI碼" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>總價</label>
+      <input id="price" placeholder="請輸入總價" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>每日租金</label>
+      <input id="rent" placeholder="請輸入每日租金" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>銀行分行</label>
+      <input id="bank" placeholder="請輸入銀行分行" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>戶名</label>
+      <input id="accountName" placeholder="請輸入戶名" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>帳號</label>
+      <input id="account" placeholder="請輸入帳號" autocomplete="off">
+    </div>
     <div class="button-group">
       <button type="button" onclick="fillContract()">套入合約資料</button>
       <button type="button" onclick="downloadPDF()">下載 PDF 合約</button>
@@ -255,22 +285,26 @@
       <div class="field" id="day3Field" style="top:1880px; left:1050px;"></div>
     </div>
   </div>
+
   <script>
     function formatNumber(num) {
       if (!num || isNaN(num)) return num;
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
     function toTaiwanDateParts(date) {
       const y = date.getFullYear() - 1911;
       const m = String(date.getMonth() + 1).padStart(2, '0');
       const d = String(date.getDate()).padStart(2, '0');
       return { year: y, month: m, day: d };
     }
+
     function addDays(date, days) {
       const result = new Date(date);
       result.setDate(result.getDate() + days);
       return result;
     }
+
     function fillContract() {
       // PAGE 1
       document.getElementById('sellerNameField').innerText = document.getElementById('name').value;
@@ -283,11 +317,13 @@
       document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
       document.getElementById('accountNumberField').innerText = document.getElementById('account').value;
       document.getElementById('signerIdField').innerText = document.getElementById('id').value;
+
       const today = new Date();
       const taiwan = toTaiwanDateParts(today);
       document.getElementById('yearField').innerText = taiwan.year;
       document.getElementById('monthField').innerText = taiwan.month;
       document.getElementById('dayField').innerText = taiwan.day;
+
       // PAGE 2
       document.getElementById('contractorNameField').innerText = document.getElementById('name').value;
       document.getElementById('model2Field').innerText = document.getElementById('model').value;
@@ -296,23 +332,27 @@
       document.getElementById('startYearField').innerText = taiwan.year;
       document.getElementById('startMonthField').innerText = taiwan.month;
       document.getElementById('startDayField').innerText = taiwan.day;
+
       const endDate = addDays(today, 7);
       const endTaiwan = toTaiwanDateParts(endDate);
       document.getElementById('endYearField').innerText = endTaiwan.year;
       document.getElementById('endMonthField').innerText = endTaiwan.month;
       document.getElementById('endDayField').innerText = endTaiwan.day;
+
       document.getElementById('rent2Field').innerText = formatNumber(document.getElementById('rent').value);
       document.getElementById('address2Field').innerText = document.getElementById('address').value;
       document.getElementById('id2Field').innerText = document.getElementById('id').value;
       document.getElementById('year2Field').innerText = taiwan.year;
       document.getElementById('month2Field').innerText = taiwan.month;
       document.getElementById('day2Field').innerText = taiwan.day;
+
       // PAGE 3
       document.getElementById('signerId3Field').innerText = document.getElementById('id').value;
       document.getElementById('year3Field').innerText = taiwan.year;
       document.getElementById('month3Field').innerText = taiwan.month;
       document.getElementById('day3Field').innerText = taiwan.day;
     }
+
     async function downloadPDF() {
       const jsPDF = window.jspdf.jsPDF;
       const pdf = new jsPDF('p', 'mm', 'a4');
@@ -321,25 +361,54 @@
         document.getElementById('contractPage2'),
         document.getElementById('contractPage3')
       ];
+
+      // 顯示載入中訊息
+      alert('PDF製作中，請稍候...');
+
       for (let i = 0; i < pages.length; i++) {
-        await new Promise(resolve => {
+        // 確保圖片載入完成
+        await new Promise((resolve) => {
           const bg = pages[i].style.backgroundImage;
           if (!bg) return resolve();
+          
           const url = bg.slice(5, -2);
-          const img = new window.Image();
+          const img = new Image();
+          img.crossOrigin = "anonymous";  // 允許跨域
           img.onload = resolve;
-          img.onerror = resolve;
+          img.onerror = () => {
+            console.error('Image failed to load:', url);
+            resolve();
+          };
           img.src = url;
-          if (img.complete) resolve();
         });
-        const canvas = await html2canvas(pages[i], { scale: 2, useCORS: true });
+
+        // 設定 html2canvas 選項
+        const canvas = await html2canvas(pages[i], {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+          logging: true,
+          onclone: function(clonedDoc) {
+            const clonedElement = clonedDoc.getElementById(`contractPage${i+1}`);
+            if (clonedElement) {
+              clonedElement.style.visibility = 'visible';
+              clonedElement.style.display = 'block';
+              clonedElement.style.position = 'relative';
+              clonedElement.style.left = '0';
+            }
+          }
+        });
+
         const imgData = canvas.toDataURL('image/jpeg', 1.0);
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
         if (i > 0) pdf.addPage();
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
       }
+
       const name = document.getElementById('name').value || '合約';
       pdf.save(`${name}-手機對保合約.pdf`);
     }
