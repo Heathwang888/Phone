@@ -1,16 +1,289 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <!-- 前面的 head 部分保持不變 -->
-  [之前的 meta 標籤和 style 部分保持不變]
+  <meta charset="UTF-8">
+  <title>手機對保合約</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1976d2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="手機對保合約">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      overscroll-behavior: none;
+    }
+
+    /* App-like header */
+    .app-header {
+      background: #1976d2;
+      color: white;
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .container {
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    form {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin: 0;
+      padding: 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .form-group:last-child {
+      border-bottom: none;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      font-size: 16px;
+      background: transparent;
+      color: #333;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right center;
+      padding-right: 24px;
+    }
+
+    .button-group {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 12px;
+      z-index: 1000;
+    }
+
+    button {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      background: #1976d2;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* 隱藏預覽頁面但保持可渲染 */
+    .page-container {
+      visibility: hidden;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .page {
+      position: relative;
+      width: 1448px;
+      height: 2048px;
+      background-size: cover;
+      background-position: center;
+      margin: 40px auto;
+      background-repeat: no-repeat;
+    }
+
+    .field {
+      position: absolute;
+      font-size: 22px;
+      color: #000;
+      font-weight: bold;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* 增加底部間距，避免被固定按鈕擋住 */
+    .bottom-spacing {
+      height: 80px;
+    }
+
+    /* Loading 動畫 */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255,255,255,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #1976d2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* iOS-style input */
+    input::placeholder {
+      color: #999;
+    }
+
+    /* 移除 iOS 默認樣式 */
+    input[type="text"],
+    input[type="number"],
+    input[type="tel"],
+    select {
+      border-radius: 0;
+    }
+  </style>
 </head>
 <body>
   <div class="app-header">手機對保合約</div>
   
-  <div class="container">
+    <div class="container">
     <form id="dataForm" autocomplete="off">
-      <!-- 表單內容保持不變 -->
-      [之前的表單內容]
+      <div class="form-group">
+        <label>姓名</label>
+        <input id="name" type="text" placeholder="請輸入姓名" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>身分證字號</label>
+        <input id="id" type="text" placeholder="請輸入身分證字號" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>地址</label>
+        <input id="address" type="text" placeholder="請輸入完整地址" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>手機型號</label>
+        <select id="model">
+          <option value="">請選擇型號</option>
+          <option>iPhone 12</option>
+          <option>iPhone 12 mini</option>
+          <option>iPhone 12 Pro</option>
+          <option>iPhone 12 Pro Max</option>
+          <option>iPhone 13</option>
+          <option>iPhone 13 mini</option>
+          <option>iPhone 13 Pro</option>
+          <option>iPhone 13 Pro Max</option>
+          <option>iPhone 14</option>
+          <option>iPhone 14 Plus</option>
+          <option>iPhone 14 Pro</option>
+          <option>iPhone 14 Pro Max</option>
+          <option>iPhone 15</option>
+          <option>iPhone 15 Plus</option>
+          <option>iPhone 15 Pro</option>
+          <option>iPhone 15 Pro Max</option>
+          <option>iPhone 16</option>
+          <option>iPhone 16 e</option>
+          <option>iPhone 16 Plus</option>
+          <option>iPhone 16 Pro</option>
+          <option>iPhone 16 Pro Max</option>       
+        </select>
+      </div>
+      <div class="form-group">
+        <label>容量</label>
+        <select id="capacity">
+          <option value="">請選擇容量</option>
+          <option>128G</option>
+          <option>256G</option>
+          <option>512G</option>
+          <option>1TB</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>IMEI碼</label>
+        <input id="imei" type="text" placeholder="請輸入IMEI碼" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>總價</label>
+        <input id="price" type="number" placeholder="請輸入總價" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>每週租金</label>
+        <input id="rent" type="number" placeholder="請輸入每週租金" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>銀行分行</label>
+        <input id="bank" type="text" placeholder="請輸入銀行分行" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>戶名</label>
+        <input id="accountName" type="text" placeholder="請輸入戶名" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>帳號</label>
+        <input id="account" type="text" placeholder="請輸入帳號" autocomplete="off">
+      </div>
     </form>
     <div class="bottom-spacing"></div>
   </div>
