@@ -168,7 +168,7 @@
   </form>
 
   <div class="page-container">
-    <!-- PAGE 1 -->
+     <!-- PAGE 1 -->
     <div class="page" id="contractPage1" style="background-image: url('images/page1.jpg');">
       <!-- 出賣人 -->
       <div class="field" id="sellerNameField" style="top:175px; left:183px;"></div>
@@ -287,15 +287,12 @@
       document.getElementById('year2Field').innerText = taiwan.year;
       document.getElementById('month2Field').innerText = taiwan.month;
       document.getElementById('day2Field').innerText = taiwan.day;
-
+    }
 
     async function downloadPDF() {
       const jsPDF = window.jspdf.jsPDF;
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const pages = [
-  document.getElementById('contractPage1'),
-  document.getElementById('contractPage2'),
-];
+      const pages = [document.getElementById('contractPage1'), document.getElementById('contractPage2')];
       
       for (let i = 0; i < pages.length; i++) {
         // 確保圖片已載入
