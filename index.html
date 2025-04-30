@@ -297,12 +297,6 @@
       document.getElementById('month2Field').innerText = taiwan.month;
       document.getElementById('day2Field').innerText = taiwan.day;
 
-      // PAGE 3
-      document.getElementById('signerId3Field').innerText = document.getElementById('id').value;
-      document.getElementById('year3Field').innerText = taiwan.year;
-      document.getElementById('month3Field').innerText = taiwan.month;
-      document.getElementById('day3Field').innerText = taiwan.day;
-    }
 
     async function downloadPDF() {
       const jsPDF = window.jspdf.jsPDF;
@@ -310,7 +304,6 @@
       const pages = [
   document.getElementById('contractPage1'),
   document.getElementById('contractPage2'),
-  document.getElementById('contractPage3')
 ];
       
       for (let i = 0; i < pages.length; i++) {
