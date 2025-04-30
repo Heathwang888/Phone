@@ -155,8 +155,8 @@
       </select>
     </div>
     <div class="form-group"><label>IMEI碼<input id="imei" autocomplete="off"></label></div>
-    <div class="form-group"><label>總價（元）<input id="price" autocomplete="off"></label></div>
-    <div class="form-group"><label>每日租金（元）<input id="rent" autocomplete="off"></label></div>
+    <div class="form-group"><label>總價<input id="price" autocomplete="off"></label></div>
+    <div class="form-group"><label>每日租金<input id="rent" autocomplete="off"></label></div>
     <div class="form-group"><label>銀行分行<input id="bank" autocomplete="off"></label></div>
     <div class="form-group"><label>戶名<input id="accountName" autocomplete="off"></label></div>
     <div class="form-group"><label>帳號<input id="account" autocomplete="off"></label></div>
@@ -169,24 +169,24 @@
   <div class="page-container">
     <div class="page" id="contractPage">
       <!-- 出賣人 -->
-      <div class="field" id="sellerName" style="top:180px; left:180px;"></div>
-      <div class="field" id="sellerId" style="top:180px; left:400px;"></div>
-      <div class="field" id="sellerAddress" style="top:210px; left:180px;"></div>
+      <div class="field" id="sellerNameField" style="top:175px; left:180px;"></div>
+      <div class="field" id="sellerIdField" style="top:175px; left:420px;"></div>
+      <div class="field" id="sellerAddressField" style="top:210px; left:180px;"></div>
       <!-- 標的物 -->
-      <div class="field" id="phoneModel" style="top:355px; left:300px;"></div>
-      <div class="field" id="imei" style="top:355px; left:400px;"></div>
+      <div class="field" id="phoneModelField" style="top:340px; left:300px;"></div>
+      <div class="field" id="imeiField" style="top:340px; left:400px;"></div>
       <!-- 交易總價 -->
-      <div class="field" id="totalPrice" style="top:498px; left:255px;"></div>
+      <div class="field" id="totalPriceField" style="top:500px; left:255px;"></div>
       <!-- 行庫分行、戶名、帳號 -->
-      <div class="field" id="bankBranch" style="top:595px; left:180px;"></div>
-      <div class="field" id="accountNameField" style="top:595px; left:395px;"></div>
-      <div class="field" id="accountNumber" style="top:595px; left:550px;"></div>
+      <div class="field" id="bankBranchField" style="top:595px; left:210px;"></div>
+      <div class="field" id="accountNameField" style="top:595px; left:398px;"></div>
+      <div class="field" id="accountNumberField" style="top:595px; left:553px;"></div>
       <!-- 最下方身分證字號 -->
-      <div class="field" id="signerId" style="top:980px; left:210px;"></div>
+      <div class="field" id="signerIdField" style="top:980px; left:210px;"></div>
       <!-- 年月日 -->
-      <div class="field" id="year" style="top:1015px; left:210px;"></div>
-      <div class="field" id="month" style="top:1015px; left:400px;"></div>
-      <div class="field" id="day" style="top:1015px; left:570px;"></div>
+      <div class="field" id="yearField" style="top:1025px; left:210px;"></div>
+      <div class="field" id="monthField" style="top:1025px; left:400px;"></div>
+      <div class="field" id="dayField" style="top:1025px; left:570px;"></div>
     </div>
   </div>
 
@@ -199,23 +199,23 @@
     }
 
     function fillContract() {
-      document.getElementById('sellerName').innerText = document.getElementById('name').value;
-      document.getElementById('sellerId').innerText = document.getElementById('id').value;
-      document.getElementById('sellerAddress').innerText = document.getElementById('address').value;
-      document.getElementById('phoneModel').innerText = document.getElementById('model').value;
-      document.getElementById('imei').innerText = document.getElementById('imei').value;
-      document.getElementById('totalPrice').innerText = document.getElementById('price').value ? document.getElementById('price').value + '元' : '';
-      document.getElementById('bankBranch').innerText = document.getElementById('bank').value;
+      document.getElementById('sellerNameField').innerText = document.getElementById('name').value;
+      document.getElementById('sellerIdField').innerText = document.getElementById('id').value;
+      document.getElementById('sellerAddressField').innerText = document.getElementById('address').value;
+      document.getElementById('phoneModelField').innerText = document.getElementById('model').value;
+      document.getElementById('imeiField').innerText = document.getElementById('imei').value;
+      document.getElementById('totalPriceField').innerText = document.getElementById('price').value ? document.getElementById('price').value + '元' : '';
+      document.getElementById('bankBranchField').innerText = document.getElementById('bank').value;
       document.getElementById('accountNameField').innerText = document.getElementById('accountName').value;
-      document.getElementById('accountNumber').innerText = document.getElementById('account').value;
-      document.getElementById('signerId').innerText = document.getElementById('id').value;
+      document.getElementById('accountNumberField').innerText = document.getElementById('account').value;
+      document.getElementById('signerIdField').innerText = document.getElementById('id').value;
 
       // 日期
       const today = new Date();
       const taiwan = toTaiwanDateParts(today);
-      document.getElementById('year').innerText = taiwan.year;
-      document.getElementById('month').innerText = taiwan.month;
-      document.getElementById('day').innerText = taiwan.day;
+      document.getElementById('yearField').innerText = taiwan.year;
+      document.getElementById('monthField').innerText = taiwan.month;
+      document.getElementById('dayField').innerText = taiwan.day;
     }
 
     async function downloadPDF() {
