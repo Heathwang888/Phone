@@ -261,6 +261,29 @@
         </select>
       </div>
       <div class="form-group">
+  <label>是否有債權人</label>
+  <select id="hasCreditor">
+    <option value="無">無</option>
+    <option value="有">有</option>
+  </select>
+</div>
+<div class="form-group">
+  <label>設備瑕疵情況</label>
+  <select id="defect">
+    <option value="無">無</option>
+    <option value="螢幕觸控異常">螢幕觸控異常</option>
+    <option value="螢幕破裂">螢幕破裂</option>
+    <option value="螢幕顯示功能異常">螢幕顯示功能異常</option>
+    <option value="充電功能異常">充電功能異常</option>
+    <option value="實體部件異常">實體部件異常（音量鍵、電源鍵、靜音切換鍵等）</option>
+    <option value="訊號接收異常">訊號接收異常</option>
+    <option value="生物辨識功能異常">生物辨識功能異常</option>
+    <option value="相機功能異常">相機功能異常（鏡頭）</option>
+    <option value="聽筒與麥克風異常">聽筒與麥克風異常</option>
+    <option value="SIM 卡讀取異常">SIM 卡讀取異常</option>
+  </select>
+</div>
+      <div class="form-group">
         <label>IMEI碼</label>
         <input id="imei" type="text" placeholder="請輸入IMEI碼" autocomplete="off">
       </div>
@@ -321,6 +344,16 @@
       <div class="field" id="yearField" style="top:1885px; left:450px;"></div>
       <div class="field" id="monthField" style="top:1885px; left:820px;"></div>
       <div class="field" id="dayField" style="top:1885px; left:1150px;"></div>
+      <!-- 有無債權人勾選 -->
+      <div class="field" id="creditorNoneField" style="top:675px; left:550px;">V</div>
+      <div class="field" id="creditorYesField" style="top:675px; left:590px;">V</div>
+
+      <!-- 瑕疵項目：會根據選擇決定哪一項出現 V -->
+      <div class="field" id="defectTouch" style="top:705px; left:300px;">V</div>
+      <div class="field" id="defectCrack" style="top:705px; left:430px;">V</div>
+      <div class="field" id="defectDisplay" style="top:705px; left:480px;">V</div>
+      <div class="field" id="defectCharge" style="top:705px; left:880px;">V</div>
+      <div class="field" id="defectHardware" style="top:705px; left:950px;">V</div>
     </div>
 
     <!-- PAGE 2 -->
@@ -333,6 +366,9 @@
       <div class="field" id="model2Field" style="top:410px; left:530px; letter-spacing:0px;"></div>
       <!-- IMEI -->
       <div class="field" id="imei2Field" style="top:410px; left:800px; letter-spacing:0px;"></div>
+      <!-- 無瑕疵自動勾選 -->
+      <div class="field" id="normalFunctionField" style="top:440px; left:500px;">V</div>
+      <div class="field" id="noDamageField" style="top:470px; left:500px;">V</div>
       <!-- 總價值 -->
       <div class="field" id="price2Field" style="top:410px; left:1100px;"></div>
       <!-- 租賃期間 -->
