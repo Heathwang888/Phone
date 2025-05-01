@@ -2,132 +2,284 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>手機對保合約</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#1976d2">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="手機對保合約">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+  <title>手機租賃管理後台</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
+    :root {
+      --primary-color: #1976d2;
+      --primary-hover: #1565c0;
+      --error-color: #d32f2f;
+      --success-color: #2e7d32;
+      --warning-color: #ff9800;
+      --border-color: #e0e0e0;
+      --text-color: #333;
+      --text-secondary: #666;
+      --background-color: #f5f5f5;
+      --card-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --card-hover-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      --sidebar-width: 240px;
+    }
+
     * {
-      -webkit-tap-highlight-color: transparent;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       font-family: 'Noto Sans TC', sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 0;
-      overscroll-behavior: none;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
     }
 
-    /* App-like header */
-    .app-header {
-      background: #1976d2;
-      color: white;
-      padding: 16px;
-      position: sticky;
+    /* 側邊欄樣式 */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: white;
+      padding: 1rem;
+      position: fixed;
+      left: 0;
       top: 0;
+      bottom: 0;
+      box-shadow: var(--card-shadow);
       z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .sidebar-header {
+      padding: 1rem;
       text-align: center;
-      font-size: 18px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-header h1 {
+      font-size: 1.25rem;
+      color: var(--text-color);
+    }
+
+    .nav-menu {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      background: var(--background-color);
+      color: var(--text-color);
+    }
+
+    .nav-link.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .nav-link i {
+      margin-right: 0.75rem;
+      font-size: 1.25rem;
+    }
+
+    /* 主內容區樣式 */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      padding: 2rem;
+    }
+
+    /* 頁面切換動畫 */
+    .page-section {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .page-section.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* 客戶卡片展開樣式 */
+    .customer-card {
+      position: relative;
+      overflow: hidden;
+      background: white;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 1rem;
+    }
+
+    .customer-card .card-header {
+      cursor: pointer;
+      padding: 1.5rem;
+    }
+
+    .customer-card .card-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background: var(--background-color);
+    }
+
+    .customer-card.expanded .card-content {
+      max-height: 1000px;
+      padding: 1.5rem;
+    }
+
+    .customer-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .detail-group {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .detail-group h4 {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .detail-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-label {
+      color: var(--text-secondary);
+    }
+
+    .detail-value {
       font-weight: 500;
     }
 
-    .container {
-      padding: 16px;
-      max-width: 600px;
-      margin: 0 auto;
+    .expand-icon {
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
+      transition: transform 0.3s;
     }
 
-    form {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      overflow: hidden;
-      margin-bottom: 16px;
+    .customer-card.expanded .expand-icon {
+      transform: rotate(180deg);
+    }
+
+    /* 合約生成表單樣式 */
+    .contract-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
     }
 
     .form-group {
-      margin: 0;
-      padding: 16px;
-      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 1.5rem;
     }
 
-    .form-group:last-child {
-      border-bottom: none;
-    }
-
-    label {
+    .form-group label {
       display: block;
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
     }
 
-    input, select {
+    .form-group input,
+    .form-group select {
       width: 100%;
-      padding: 12px 0;
-      border: none;
-      font-size: 16px;
-      background: transparent;
-      color: #333;
-      -webkit-appearance: none;
-      appearance: none;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 1rem;
     }
 
-    input:focus, select:focus {
+    .form-group input:focus,
+    .form-group select:focus {
       outline: none;
+      border-color: var(--primary-color);
     }
 
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right center;
-      padding-right: 24px;
-    }
-
-    .button-group {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 16px;
-      background: white;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    .action-buttons {
       display: flex;
-      gap: 12px;
-      z-index: 1000;
+      gap: 1rem;
+      margin-top: 2rem;
     }
 
-    button {
-      flex: 1;
-      padding: 16px;
+    .button {
+      padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 12px;
-      background: #1976d2;
-      color: white;
-      font-size: 16px;
+      border-radius: 4px;
+      font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background-color 0.2s;
     }
 
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
+    .button-primary {
+      background: var(--primary-color);
+      color: white;
     }
 
-    /* 隱藏預覽頁面但保持可渲染 */
+    .button-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .button-success {
+      background: var(--success-color);
+      color: white;
+    }
+
+    .button-success:hover {
+      background: #1b5e20;
+    }
+
+    .button-danger {
+      background: var(--error-color);
+      color: white;
+    }
+
+    .button-danger:hover {
+      background: #b71c1c;
+    }
+
+    .button-warning {
+      background: var(--warning-color);
+      color: white;
+    }
+
+    .button-warning:hover {
+      background: #e65100;
+    }
+
+    /* 合約預覽容器 */
     .page-container {
       visibility: hidden;
       position: fixed;
@@ -160,11 +312,6 @@
       visibility: hidden;
     }
 
-    /* 增加底部間距，避免被固定按鈕擋住 */
-    .bottom-spacing {
-      height: 80px;
-    }
-
     /* Loading 動畫 */
     .loading-overlay {
       position: fixed;
@@ -183,7 +330,7 @@
       width: 40px;
       height: 40px;
       border: 4px solid #f3f3f3;
-      border-top: 4px solid #1976d2;
+      border-top: 4px solid var(--primary-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -192,136 +339,356 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    /* iOS-style input */
-    input::placeholder {
-      color: #999;
-    }
-
-    /* 移除 iOS 默認樣式 */
-    input[type="text"],
-    input[type="number"],
-    input[type="tel"],
-    select {
-      border-radius: 0;
-    }
   </style>
 </head>
 <body>
-  <div class="app-header">手機對保合約</div>
-  
-  <div class="container">
-    <form id="dataForm" autocomplete="off">
-      <div class="form-group">
-        <label>姓名</label>
-        <input id="name" type="text" placeholder="請輸入姓名" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>身分證字號</label>
-        <input id="id" type="text" placeholder="請輸入身分證字號" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>地址</label>
-        <input id="address" type="text" placeholder="請輸入完整地址" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>手機型號</label>
-        <select id="model">
-          <option value="">請選擇型號</option>
-          <option>iPhone 12</option>
-          <option>iPhone 12 mini</option>
-          <option>iPhone 12 Pro</option>
-          <option>iPhone 12 Pro Max</option>
-          <option>iPhone 13</option>
-          <option>iPhone 13 mini</option>
-          <option>iPhone 13 Pro</option>
-          <option>iPhone 13 Pro Max</option>
-          <option>iPhone 14</option>
-          <option>iPhone 14 Plus</option>
-          <option>iPhone 14 Pro</option>
-          <option>iPhone 14 Pro Max</option>
-          <option>iPhone 15</option>
-          <option>iPhone 15 Plus</option>
-          <option>iPhone 15 Pro</option>
-          <option>iPhone 15 Pro Max</option>
-          <option>iPhone 16</option>
-          <option>iPhone 16 e</option>
-          <option>iPhone 16 Plus</option>
-          <option>iPhone 16 Pro</option>
-          <option>iPhone 16 Pro Max</option>       
-        </select>
-      </div>
-      <div class="form-group">
-        <label>容量</label>
-        <select id="capacity">
-          <option value="">請選擇容量</option>
-          <option>128G</option>
-          <option>256G</option>
-          <option>512G</option>
-          <option>1TB</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>是否有債權人</label>
-        <select id="hasCreditor">
-          <option value="無">無</option>
-          <option value="有">有</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>設備瑕疵情況</label>
-        <select id="defect">
-          <option value="無">無</option>
-          <option value="螢幕觸控異常">螢幕觸控異常</option>
-          <option value="螢幕破裂">螢幕破裂</option>
-          <option value="螢幕顯示功能異常">螢幕顯示功能異常</option>
-          <option value="充電功能異常">充電功能異常</option>
-          <option value="實體部件異常">實體部件異常（音量鍵、電源鍵、靜音切換鍵等）</option>
-          <option value="訊號接收異常">訊號接收異常</option>
-          <option value="生物辨識功能異常">生物辨識功能異常</option>
-          <option value="相機功能異常">相機功能異常（鏡頭）</option>
-          <option value="聽筒與麥克風異常">聽筒與麥克風異常</option>
-          <option value="SIM 卡讀取異常">SIM 卡讀取異常</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>IMEI碼</label>
-        <input id="imei" type="text" placeholder="請輸入IMEI碼" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>總價</label>
-        <input id="price" type="number" placeholder="請輸入總價" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>每週租金</label>
-        <input id="rent" type="number" placeholder="請輸入每週租金" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>銀行分行</label>
-        <input id="bank" type="text" placeholder="請輸入銀行分行" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>戶名</label>
-        <input id="accountName" type="text" placeholder="請輸入戶名" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>帳號</label>
-        <input id="account" type="text" placeholder="請輸入帳號" autocomplete="off">
-      </div>
-    </form>
-    <div class="bottom-spacing"></div>
-  </div>
+  <!-- 側邊導航欄 -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>手機租賃管理後台</h1>
+    </div>
+    <nav>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#overview" class="nav-link active">
+            <i>📊</i>
+            <span>總覽</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#customers" class="nav-link">
+            <i>👥</i>
+            <span>客戶管理</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#contract" class="nav-link">
+            <i>📝</i>
+            <span>合約管理</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#accounting" class="nav-link">
+            <i>💰</i>
+            <span>帳務管理</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
 
-  <div class="button-group">
-    <button type="button" onclick="fillContract()">套入合約資料</button>
-    <button type="button" onclick="downloadPDF()" id="downloadBtn" disabled>下載 PDF</button>
-  </div>
+  <!-- 主內容區 -->
+  <main class="main-content">
+    <!-- 總覽頁面 -->
+    <section id="overview" class="page-section active">
+      <div class="overview-cards">
+        <div class="overview-card">
+          <h3>今日到期</h3>
+          <div class="card-content">
+            <div class="info-row">
+              <span class="label">應收租金</span>
+              <span class="value">$50,000</span>
+            </div>
+            <div class="info-row">
+              <span class="label">應收本金</span>
+              <span class="value">$200,000</span>
+            </div>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h3>進行中合約</h3>
+          <div class="card-content">
+            <div class="info-row">
+              <span class="label">總數</span>
+              <span class="value">25</span>
+            </div>
+            <div class="info-row">
+              <span class="label">月收租金</span>
+              <span class="value">$200,000</span>
+            </div>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h3>總支出</h3>
+          <div class="card-content">
+            <div class="info-row">
+              <span class="label">本月</span>
+              <span class="value">$1,500,000</span>
+            </div>
+            <div class="info-row">
+              <span class="label">累計</span>
+              <span class="value">$5,000,000</span>
+            </div>
+          </div>
+        </div>
+        <div class="overview-card">
+          <h3>逾期帳款</h3>
+          <div class="card-content">
+            <div class="info-row">
+              <span class="label">筆數</span>
+              <span class="value">3</span>
+            </div>
+            <div class="info-row">
+              <span class="label">金額</span>
+              <span class="value">$75,000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <div class="loading-overlay">
-    <div class="loading-spinner"></div>
-  </div>
+    <!-- 客戶管理頁面 -->
+    <section id="customers" class="page-section">
+      <div class="container">
+        <div class="filter-tabs">
+          <button class="filter-tab active">全部</button>
+          <button class="filter-tab">租約中</button>
+          <button class="filter-tab">已結清</button>
+          <button class="filter-tab">逾期</button>
+        </div>
 
-  <!-- 合約頁面容器 -->
+        <div class="customer-cards">
+          <!-- 客戶卡片範例 -->
+          <div class="customer-card">
+            <div class="card-header" onclick="toggleCustomerDetails(this)">
+              <h3>張三 <span class="status-badge status-active">租約中</span></h3>
+              <div class="customer-info">
+                <div class="info-row">
+                  <span class="label">合約期間</span>
+                  <span>112/10/01 - 112/10/08</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">手機型號</span>
+                  <span>iPhone 15 Pro Max</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">價金</span>
+                  <span>$40,000</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">每週租金</span>
+                  <span>$1,000</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">剩餘期數</span>
+                  <span>4 週</span>
+                </div>
+              </div>
+              <i class="expand-icon">▼</i>
+            </div>
+            <div class="card-content">
+              <div class="customer-details">
+                <div class="detail-group">
+                  <h4>基本資料</h4>
+                  <div class="detail-item">
+                    <span class="detail-label">身分證字號</span>
+                    <span class="detail-value">A123456789</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">手機號碼</span>
+                    <span class="detail-value">0912-345-678</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">戶籍地址</span>
+                    <span class="detail-value">台北市信義區信義路五段7號</span>
+                  </div>
+                </div>
+                <div class="detail-group">
+                  <h4>合約資訊</h4>
+                  <div class="detail-item">
+                    <span class="detail-label">IMEI</span>
+                    <span class="detail-value">123456789012345</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">容量</span>
+                    <span class="detail-value">256GB</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">已繳期數</span>
+                    <span class="detail-value">8 週</span>
+                  </div>
+                </div>
+                <div class="detail-group">
+                  <h4>銀行資訊</h4>
+                  <div class="detail-item">
+                    <span class="detail-label">銀行分行</span>
+                    <span class="detail-value">台北富邦銀行信義分行</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">戶名</span>
+                    <span class="detail-value">張三</span>
+                  </div>
+                  <div class="detail-item">
+                    <span class="detail-label">帳號</span>
+                    <span class="detail-value">1234-5678-9012</span>
+                  </div>
+                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="button button-success" onclick="markAsPaid('customer1')">已繳款並續約</button>
+                <button class="button button-primary" onclick="markAsBuyback('customer1')">已繳款買回</button>
+                <button class="button button-danger" onclick="markAsUnpaid('customer1')">未繳款</button>
+                <button class="button button-warning" onclick="markAsPartial('customer1')">未繳足款</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button class="page-button">1</button>
+          <button class="page-button">2</button>
+          <button class="page-button">3</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 合約管理頁面 -->
+    <section id="contract" class="page-section">
+      <div class="container">
+        <div class="contract-form">
+          <div class="form-group">
+            <label>姓名</label>
+            <input id="name" type="text" placeholder="請輸入姓名">
+          </div>
+          <div class="form-group">
+            <label>身分證字號</label>
+            <input id="id" type="text" placeholder="請輸入身分證字號">
+          </div>
+          <div class="form-group">
+            <label>地址</label>
+            <input id="address" type="text" placeholder="請輸入完整地址">
+          </div>
+          <div class="form-group">
+            <label>手機型號</label>
+            <select id="model">
+              <option value="">請選擇型號</option>
+              <option>iPhone 12</option>
+              <option>iPhone 12 mini</option>
+              <option>iPhone 12 Pro</option>
+              <option>iPhone 12 Pro Max</option>
+              <option>iPhone 13</option>
+              <option>iPhone 13 mini</option>
+              <option>iPhone 13 Pro</option>
+              <option>iPhone 13 Pro Max</option>
+              <option>iPhone 14</option>
+              <option>iPhone 14 Plus</option>
+              <option>iPhone 14 Pro</option>
+              <option>iPhone 14 Pro Max</option>
+              <option>iPhone 15</option>
+              <option>iPhone 15 Plus</option>
+              <option>iPhone 15 Pro</option>
+              <option>iPhone 15 Pro Max</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>容量</label>
+            <select id="capacity">
+              <option value="">請選擇容量</option>
+              <option>128G</option>
+              <option>256G</option>
+              <option>512G</option>
+              <option>1TB</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>是否有債權人</label>
+            <select id="hasCreditor">
+              <option value="無">無</option>
+              <option value="有">有</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>設備瑕疵情況</label>
+            <select id="defect">
+              <option value="無">無</option>
+              <option value="螢幕觸控異常">螢幕觸控異常</option>
+              <option value="螢幕破裂">螢幕破裂</option>
+              <option value="螢幕顯示功能異常">螢幕顯示功能異常</option>
+              <option value="充電功能異常">充電功能異常</option>
+              <option value="實體部件異常">實體部件異常（音量鍵、電源鍵、靜音切換鍵等）</option>
+              <option value="訊號接收異常">訊號接收異常</option>
+              <option value="生物辨識功能異常">生物辨識功能異常</option>
+              <option value="相機功能異常">相機功能異常（鏡頭）</option>
+              <option value="聽筒與麥克風異常">聽筒與麥克風異常</option>
+              <option value="SIM 卡讀取異常">SIM 卡讀取異常</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>IMEI碼</label>
+            <input id="imei" type="text" placeholder="請輸入IMEI碼">
+          </div>
+          <div class="form-group">
+            <label>總價</label>
+            <input id="price" type="number" placeholder="請輸入總價">
+          </div>
+          <div class="form-group">
+            <label>每週租金</label>
+            <input id="rent" type="number" placeholder="請輸入每週租金">
+          </div>
+          <div class="form-group">
+            <label>銀行分行</label>
+            <input id="bank" type="text" placeholder="請輸入銀行分行">
+          </div>
+          <div class="form-group">
+            <label>戶名</label>
+            <input id="accountName" type="text" placeholder="請輸入戶名">
+          </div>
+          <div class="form-group">
+            <label>帳號</label>
+            <input id="account" type="text" placeholder="請輸入帳號">
+          </div>
+          <div class="action-buttons">
+            <button class="button button-primary" onclick="fillContract()">套入合約資料</button>
+            <button class="button button-success" onclick="downloadPDF()" id="downloadBtn" disabled>下載 PDF</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 帳務管理頁面 -->
+    <section id="accounting" class="page-section">
+      <div class="container">
+        <div class="accounting-summary">
+          <div class="summary-card">
+            <h3>本月收支</h3>
+            <div class="summary-content">
+              <div class="summary-item">
+                <span class="label">收入</span>
+                <span class="value">$500,000</span>
+              </div>
+              <div class="summary-item">
+                <span class="label">支出</span>
+                <span class="value">$300,000</span>
+              </div>
+              <div class="summary-item">
+                <span class="label">淨利</span>
+                <span class="value">$200,000</span>
+              </div>
+            </div>
+          </div>
+          <div class="summary-card">
+            <h3>累計收支</h3>
+            <div class="summary-content">
+              <div class="summary-item">
+                <span class="label">收入</span>
+                <span class="value">$2,000,000</span>
+              </div>
+              <div class="summary-item">
+                <span class="label">支出</span>
+                <span class="value">$1,500,000</span>
+              </div>
+              <div class="summary-item">
+                <span class="label">淨利</span>
+                <span class="value">$500,000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 合約預覽容器 -->
   <div class="page-container">
     <!-- PAGE 1 -->
     <div class="page" id="contractPage1" style="background-image: url('images/page1.jpg');">
@@ -401,18 +768,32 @@
     </div>
   </div>
 
+  <!-- Loading 動畫 -->
+  <div class="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+
   <script>
-    // 註冊 Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful');
-          })
-          .catch(err => {
-            console.log('ServiceWorker registration failed: ', err);
-          });
+    // 頁面切換功能
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // 移除所有活動狀態
+        document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+        document.querySelectorAll('.page-section').forEach(section => section.classList.remove('active'));
+        
+        // 添加當前活動狀態
+        link.classList.add('active');
+        const sectionId = link.getAttribute('href').substring(1);
+        document.getElementById(sectionId).classList.add('active');
       });
+    });
+
+    // 客戶卡片展開/收起功能
+    function toggleCustomerDetails(header) {
+      const card = header.parentElement;
+      card.classList.toggle('expanded');
     }
 
     // 格式化數字（加上千分位）
@@ -642,4 +1023,4 @@
     }
   </script>
 </body>
-</html> 
+</html>
