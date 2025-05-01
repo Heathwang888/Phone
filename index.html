@@ -157,6 +157,7 @@
       letter-spacing: 1px;
       white-space: nowrap;
       pointer-events: none;
+      visibility: hidden;
     }
 
     /* 增加底部間距，避免被固定按鈕擋住 */
@@ -209,7 +210,7 @@
 <body>
   <div class="app-header">手機對保合約</div>
   
-    <div class="container">
+  <div class="container">
     <form id="dataForm" autocomplete="off">
       <div class="form-group">
         <label>姓名</label>
@@ -261,28 +262,28 @@
         </select>
       </div>
       <div class="form-group">
-  <label>是否有債權人</label>
-  <select id="hasCreditor">
-    <option value="無">無</option>
-    <option value="有">有</option>
-  </select>
-</div>
-<div class="form-group">
-  <label>設備瑕疵情況</label>
-  <select id="defect">
-    <option value="無">無</option>
-    <option value="螢幕觸控異常">螢幕觸控異常</option>
-    <option value="螢幕破裂">螢幕破裂</option>
-    <option value="螢幕顯示功能異常">螢幕顯示功能異常</option>
-    <option value="充電功能異常">充電功能異常</option>
-    <option value="實體部件異常">實體部件異常（音量鍵、電源鍵、靜音切換鍵等）</option>
-    <option value="訊號接收異常">訊號接收異常</option>
-    <option value="生物辨識功能異常">生物辨識功能異常</option>
-    <option value="相機功能異常">相機功能異常（鏡頭）</option>
-    <option value="聽筒與麥克風異常">聽筒與麥克風異常</option>
-    <option value="SIM 卡讀取異常">SIM 卡讀取異常</option>
-  </select>
-</div>
+        <label>是否有債權人</label>
+        <select id="hasCreditor">
+          <option value="無">無</option>
+          <option value="有">有</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>設備瑕疵情況</label>
+        <select id="defect">
+          <option value="無">無</option>
+          <option value="螢幕觸控異常">螢幕觸控異常</option>
+          <option value="螢幕破裂">螢幕破裂</option>
+          <option value="螢幕顯示功能異常">螢幕顯示功能異常</option>
+          <option value="充電功能異常">充電功能異常</option>
+          <option value="實體部件異常">實體部件異常（音量鍵、電源鍵、靜音切換鍵等）</option>
+          <option value="訊號接收異常">訊號接收異常</option>
+          <option value="生物辨識功能異常">生物辨識功能異常</option>
+          <option value="相機功能異常">相機功能異常（鏡頭）</option>
+          <option value="聽筒與麥克風異常">聽筒與麥克風異常</option>
+          <option value="SIM 卡讀取異常">SIM 卡讀取異常</option>
+        </select>
+      </div>
       <div class="form-group">
         <label>IMEI碼</label>
         <input id="imei" type="text" placeholder="請輸入IMEI碼" autocomplete="off">
@@ -346,14 +347,14 @@
       <div class="field" id="dayField" style="top:1885px; left:1150px;"></div>
       <!-- 有無債權人勾選 -->
       <div class="field" id="creditorNoneField" style="top:720px; left:605px;">V</div>
-      <div class="field" id="creditorYesField" style="top:720px; left:680px;">V</div>
+      <div class="field" id="creditorYesField" style="top:720px; left:695px;">V</div>
 
       <!-- 瑕疵項目：會根據選擇決定哪一項出現 V -->
-      <div class="field" id="defectTouch" style="top:805px; left:250px;">V</div>
-      <div class="field" id="defectCrack" style="top:805px; left:480px;">V</div>
-      <div class="field" id="defectDisplay" style="top:805px; left:630px;">V</div>
-      <div class="field" id="defectCharge" style="top:805px; left:920px;">V</div>
-      <div class="field" id="defectHardware" style="top:805px; left:1100px;">V</div>
+      <div class="field" id="defectTouch" style="top:805px; left:255px;">V</div>
+      <div class="field" id="defectCrack" style="top:805px; left:475px;">V</div>
+      <div class="field" id="defectDisplay" style="top:805px; left:635px;">V</div>
+      <div class="field" id="defectCharge" style="top:805px; left:915px;">V</div>
+      <div class="field" id="defectHardware" style="top:805px; left:1130px;">V</div>
     </div>
 
     <!-- PAGE 2 -->
@@ -454,6 +455,35 @@
       document.getElementById('yearField').innerText = taiwan.year;
       document.getElementById('monthField').innerText = taiwan.month;
       document.getElementById('dayField').innerText = taiwan.day;
+
+      // 處理債權人選項
+      const hasCreditor = document.getElementById('hasCreditor').value;
+      document.getElementById('creditorNoneField').style.visibility = hasCreditor === '無' ? 'visible' : 'hidden';
+      document.getElementById('creditorYesField').style.visibility = hasCreditor === '有' ? 'visible' : 'hidden';
+
+      // 處理瑕疵選項
+      const defect = document.getElementById('defect').value;
+      if (defect === '無') {
+        // 顯示正常功能選項
+        document.getElementById('normalFunctionField').style.visibility = 'visible';
+        document.getElementById('noDamageField').style.visibility = 'visible';
+        // 隱藏所有瑕疵選項
+        document.getElementById('defectTouch').style.visibility = 'hidden';
+        document.getElementById('defectCrack').style.visibility = 'hidden';
+        document.getElementById('defectDisplay').style.visibility = 'hidden';
+        document.getElementById('defectCharge').style.visibility = 'hidden';
+        document.getElementById('defectHardware').style.visibility = 'hidden';
+      } else {
+        // 隱藏正常功能選項
+        document.getElementById('normalFunctionField').style.visibility = 'hidden';
+        document.getElementById('noDamageField').style.visibility = 'hidden';
+        // 根據選擇的瑕疵顯示對應的 V
+        document.getElementById('defectTouch').style.visibility = defect === '螢幕觸控異常' ? 'visible' : 'hidden';
+        document.getElementById('defectCrack').style.visibility = defect === '螢幕破裂' ? 'visible' : 'hidden';
+        document.getElementById('defectDisplay').style.visibility = defect === '螢幕顯示功能異常' ? 'visible' : 'hidden';
+        document.getElementById('defectCharge').style.visibility = defect === '充電功能異常' ? 'visible' : 'hidden';
+        document.getElementById('defectHardware').style.visibility = defect === '實體部件異常' ? 'visible' : 'hidden';
+      }
 
       // PAGE 2
       document.getElementById('contractorNameField').innerText = document.getElementById('name').value;
