@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -564,10 +564,18 @@
             onclone: function(clonedDoc) {
               const clonedElement = clonedDoc.getElementById(`contractPage${i+1}`);
               if (clonedElement) {
+                // 確保頁面容器可見
                 clonedElement.style.visibility = 'visible';
                 clonedElement.style.display = 'block';
                 clonedElement.style.position = 'relative';
                 clonedElement.style.left = '0';
+                
+                // 確保所有欄位可見
+                const fields = clonedElement.querySelectorAll('.field');
+                fields.forEach(field => {
+                  field.style.visibility = 'visible';
+                  field.style.display = 'block';
+                });
               }
             }
           });
@@ -592,4 +600,4 @@
     }
   </script>
 </body>
-</html>
+</html> 
